@@ -1,0 +1,11 @@
+11.07 3:06 pm
+requirements.txt
+Django>=4.2,<5.0
+djangorestframework
+psycopg2-binary
+django-cors-headers
+djangorestframework-simplejwt
+gunicorn
+whitenoise
+dj-database-url
+
