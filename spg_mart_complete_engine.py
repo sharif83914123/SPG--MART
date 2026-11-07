@@ -1,5 +1,5 @@
 
-import os
+            import os
 import sys
 import django
 from django.conf import settings
@@ -11,7 +11,7 @@ import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Configure Django Settings first
+# Configure Django Settings
 if not settings.configured:
     settings.configure(
         DEBUG=os.environ.get("DEBUG", "False") == "True",
@@ -69,10 +69,10 @@ class Product(models.Model):
     class Meta:
         app_label = "spg_app"
 
-# Full Frontend HTML Interface
+# Complete Master Template with AI Assistant & Amazon/Noon Level Features
 HTML_TEMPLATE = """
 <!DOCTYPE html>
-<html lang="bn" class="light">
+<html lang="bn" class="theme-yellow">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,337 +85,316 @@ HTML_TEMPLATE = """
                 extend: {
                     colors: {
                         spgYellow: '#FEEE00',
-                        spgRed: '#E53E3E',
-                        spgGreen: '#38A169',
-                        spgDark: '#1A202C'
+                        spgGreen: '#10B981',
+                        spgRed: '#EF4444',
+                        spgBlue: '#2563EB',
+                        spgDark: '#0F172A'
                     }
                 }
             }
         }
     </script>
+    <style>
+        .theme-yellow { --primary-bg: #FEEE00; --primary-text: #000000; --accent-color: #EF4444; }
+        .theme-green { --primary-bg: #10B981; --primary-text: #FFFFFF; --accent-color: #F59E0B; }
+        .theme-white { --primary-bg: #FFFFFF; --primary-text: #000000; --accent-color: #2563EB; }
+        .theme-dark { --primary-bg: #0F172A; --primary-text: #FFFFFF; --accent-color: #FEEE00; }
+        .dynamic-header { background-color: var(--primary-bg); color: var(--primary-text); }
+    </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans pb-16 md:pb-0">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans pb-16 md:pb-0 transition-colors duration-300">
 
-    <div class="bg-spgRed text-white text-xs text-center py-1 font-bold">
-        ⚡ SPG MART মেগা সেল! চট্টগ্রামসহ সারা বাংলাদেশে দ্রুত ডেলিভারি ⚡
+    <!-- Top Announcement & Settings Control Bar -->
+    <div class="bg-black text-white text-xs py-1.5 px-4 flex justify-between items-center shadow-inner">
+        <div class="flex items-center gap-2">
+            <span class="bg-spgRed px-2 py-0.5 rounded font-extrabold text-[10px] text-white">SPG MEGA SALE</span>
+            <span class="hidden md:inline" id="txt-top-announcement">চট্টগ্রাম ও আন্তর্জাতিক শিপিং সহজলভ্য | হটলাইন: 09612-SPGMART</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <!-- Language Switcher -->
+            <button onclick="toggleLanguage()" class="font-bold text-spgYellow hover:underline flex items-center gap-1 text-[11px]">
+                <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                <span id="current-lang-text">English 🇬🇧</span>
+            </button>
+            
+            <!-- Theme Selection Palette (Yellow, Green, White, Dark) -->
+            <div class="flex items-center space-x-1.5 bg-gray-800 p-1 rounded-full">
+                <button onclick="setTheme('yellow')" class="w-3.5 h-3.5 bg-yellow-400 rounded-full border border-white" title="হলুদ থিম"></button>
+                <button onclick="setTheme('green')" class="w-3.5 h-3.5 bg-emerald-500 rounded-full border border-white" title="সবুজ থিম"></button>
+                <button onclick="setTheme('white')" class="w-3.5 h-3.5 bg-white rounded-full border border-gray-400" title="সাদা থিম"></button>
+                <button onclick="setTheme('dark')" class="w-3.5 h-3.5 bg-slate-900 rounded-full border border-yellow-300" title="ডার্ক থিম"></button>
+            </div>
+        </div>
     </div>
 
-    <header class="bg-spgYellow text-black sticky top-0 z-50 shadow-md">
+    <!-- Main Dynamic Header -->
+    <header class="dynamic-header sticky top-0 z-50 shadow-lg border-b border-gray-200/20">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
             <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('home')">
-                <div class="bg-black text-spgYellow font-extrabold text-2xl px-3 py-1 rounded shadow">SPG</div>
+                <div class="bg-black text-spgYellow font-black text-2xl px-3 py-1 rounded-xl shadow-md border-2 border-black">SPG</div>
                 <div class="flex flex-col">
-                    <span class="font-extrabold text-lg leading-none">MART</span>
-                    <span class="text-[9px] font-semibold tracking-widest text-gray-800">SUPER POWER GROUP</span>
+                    <span class="font-black text-xl leading-none tracking-tight">MART</span>
+                    <span class="text-[8px] font-bold tracking-widest uppercase opacity-80">Super Power Group</span>
                 </div>
             </div>
 
-            <div onclick="openLocationModal()" class="hidden md:flex items-center text-xs font-semibold cursor-pointer hover:bg-yellow-400 p-2 rounded transition">
-                <i data-lucide="map-pin" class="w-4 h-4 mr-1 text-spgRed"></i>
+            <!-- Delivery GPS Location Picker -->
+            <div onclick="openLocationModal()" class="hidden md:flex items-center text-xs font-semibold cursor-pointer bg-black/10 hover:bg-black/20 p-2 rounded-xl transition">
+                <i data-lucide="map-pin" class="w-4 h-4 mr-1.5 text-spgRed"></i>
                 <div>
-                    <div class="text-[10px] text-gray-700">ডেলিভারি লোকেশন</div>
-                    <div class="font-bold">চট্টগ্রাম, বাংলাদেশ ▾</div>
+                    <div class="text-[9px] opacity-80" id="lbl-del-loc">ডেলিভারি লোকেশন</div>
+                    <div class="font-bold" id="selected-location-text">চট্টগ্রাম, বাংলাদেশ ▾</div>
                 </div>
             </div>
 
+            <!-- Search Bar -->
             <div class="flex-1 max-w-2xl relative">
-                <input type="text" placeholder="SPG লাইট, ফ্যান, সুইচ বা স্যানিটারি পণ্য খুঁজুন..." 
-                       class="w-full pl-4 pr-10 py-2 rounded-lg text-sm bg-white dark:bg-gray-800 text-black dark:text-white border-none focus:ring-2 focus:ring-black outline-none shadow-inner">
-                <button class="absolute right-2 top-2 text-gray-600 dark:text-gray-300">
+                <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="SPG লাইট, ফ্যান, সুইচ, সোলার বা স্যানিটারি খুঁজুন..." 
+                       class="w-full pl-4 pr-10 py-2.5 rounded-xl text-sm bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-black outline-none shadow-inner">
+                <button class="absolute right-3 top-2.5 text-gray-600 dark:text-gray-300">
                     <i data-lucide="search" class="w-5 h-5"></i>
                 </button>
             </div>
 
-            <div class="hidden md:flex items-center space-x-6 text-sm font-semibold">
-                <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-yellow-400">
-                    <i data-lucide="moon" class="w-5 h-5"></i>
+            <!-- Desktop Action Buttons -->
+            <div class="hidden md:flex items-center space-x-4 text-sm font-semibold">
+                <button id="auth-btn" onclick="openAuthModal()" class="flex items-center gap-1.5 bg-black/10 hover:bg-black/20 px-3 py-2 rounded-xl transition">
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                    <span id="user-display-name">লগইন / সাইনআপ</span>
                 </button>
-                <button onclick="switchTab('account')" class="flex items-center gap-1 hover:text-gray-700">
-                    <i data-lucide="user" class="w-5 h-5"></i>
-                    <span>অ্যাকাউন্ট</span>
-                </button>
-                <button onclick="switchTab('cart')" class="flex items-center gap-1 relative hover:text-gray-700">
-                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                    <span>কার্ট</span>
-                    <span class="absolute -top-2 -right-2 bg-spgRed text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">3</span>
+                <button onclick="switchTab('cart')" class="flex items-center gap-1.5 bg-black text-spgYellow px-4 py-2 rounded-xl font-bold shadow hover:bg-gray-800 transition">
+                    <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                    <span id="lbl-cart">কার্ট</span>
+                    <span id="cart-badge-count" class="bg-spgRed text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-extrabold ml-1">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <nav class="bg-black text-white text-xs md:text-sm overflow-x-auto shadow-inner">
-        <div class="max-w-7xl mx-auto px-4 flex items-center space-x-6 py-2 whitespace-nowrap">
-            <span class="font-bold text-spgYellow flex items-center"><i data-lucide="menu" class="w-4 h-4 mr-1"></i> সব ক্যাটাগরি:</span>
-            <a href="#" class="hover:text-spgYellow">ইলেকট্রিক্যাল পণ্য</a>
-            <a href="#" class="hover:text-spgYellow">LED লাইট ও লাইটিং</a>
-            <a href="#" class="hover:text-spgYellow">ফ্যান ও কুলিং</a>
-            <a href="#" class="hover:text-spgYellow">সুইচ ও সকেট</a>
-            <a href="#" class="hover:text-spgYellow">ইলেকট্রিক্যাল এক্সেসরিজ</a>
-            <a href="#" class="hover:text-spgYellow">সোলার পণ্য</a>
-            <a href="#" class="hover:text-spgYellow">স্যানিটারি পণ্য</a>
-            <a href="#" class="font-bold text-spgYellow border-b-2 border-spgYellow">SPG ব্র্যান্ডের পণ্য</a>
+    <!-- Sub Header Categories Navigation -->
+    <nav class="bg-slate-950 text-white text-xs md:text-sm overflow-x-auto shadow-md sticky top-[68px] z-40">
+        <div class="max-w-7xl mx-auto px-4 flex items-center space-x-6 py-2.5 whitespace-nowrap">
+            <span class="font-bold text-spgYellow flex items-center"><i data-lucide="grid" class="w-4 h-4 mr-1"></i> ক্যাটাগরি:</span>
+            <button onclick="filterCategory('all')" class="hover:text-spgYellow transition">সকল পণ্য</button>
+            <button onclick="filterCategory('electrical')" class="hover:text-spgYellow transition">ইলেকট্রিক্যাল</button>
+            <button onclick="filterCategory('lighting')" class="hover:text-spgYellow transition">LED লাইট</button>
+            <button onclick="filterCategory('cooling')" class="hover:text-spgYellow transition">ফ্যান ও কুলিং</button>
+            <button onclick="filterCategory('switch')" class="hover:text-spgYellow transition">সুইচ ও সকেট</button>
+            <button onclick="filterCategory('solar')" class="hover:text-spgYellow transition">সোলার পণ্য</button>
+            <button onclick="filterCategory('sanitary')" class="hover:text-spgYellow transition">স্যানিটারি</button>
+            <button onclick="filterCategory('crockery')" class="hover:text-spgYellow transition">কিচেন পণ্য</button>
+            <button onclick="filterCategory('spg_own')" class="font-bold text-spgYellow bg-spgRed/30 px-2 py-0.5 rounded border border-spgRed">SPG নিজস্ব ব্র‍্যান্ড</button>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 py-6" id="main-content">
+    <!-- Main Dynamic Body Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6">
+
+        <!-- HOME PAGE VIEW -->
         <section id="view-home" class="space-y-8">
-            <div class="relative bg-gradient-to-r from-yellow-500 to-red-600 rounded-2xl overflow-hidden text-white p-8 md:p-12 shadow-xl flex items-center justify-between">
-                <div class="space-y-4 max-w-lg z-10">
-                    <span class="bg-black text-spgYellow px-3 py-1 text-xs font-extrabold rounded-full uppercase tracking-widest">SPG Exclusive</span>
-                    <h1 class="text-3xl md:text-5xl font-black leading-tight">প্রিমিয়াম কোয়ালিটি সুইচ ও মেগা লাইটিং</h1>
-                    <p class="text-sm opacity-90">অফিসিয়াল SPG ব্র্যান্ডেড পণ্যে পান সর্বোচ্চ ৩০% পর্যন্ত ক্যাশব্যাক ও গ্যারান্টি।</p>
-                    <button onclick="switchTab('cart')" class="bg-black text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-800 transition transform hover:scale-105">এখনই কিনুন</button>
+            <!-- Hero Banner Carousel -->
+            <div class="relative bg-gradient-to-r from-yellow-500 via-amber-500 to-red-600 rounded-3xl overflow-hidden text-white p-8 md:p-12 shadow-2xl flex items-center justify-between">
+                <div class="space-y-4 max-w-xl z-10">
+                    <span class="bg-black text-spgYellow px-3 py-1 text-xs font-black rounded-full uppercase tracking-widest shadow">Official SPG E-Commerce</span>
+                    <h1 class="text-3xl md:text-5xl font-black leading-tight drop-shadow">প্রিমিয়াম লাইটিং ও ইলেকট্রিক্যাল গ্যারান্টি প্রোডাক্ট</h1>
+                    <p class="text-sm opacity-95">অফিসিয়াল SPG ব্র্যান্ডেড ক্যাটাগরিতে সর্বোচ্চ ২০% ক্যাশব্যাক ও চট্টগ্রাম হাব থেকে দ্রুত ডেলিভারি।</p>
+                    <button onclick="switchTab('cart')" class="bg-black text-spgYellow px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-800 transition transform hover:scale-105">এখনই অর্ডার করুন</button>
                 </div>
                 <div class="hidden lg:block">
-                    <i data-lucide="zap" class="w-64 h-64 text-yellow-300 opacity-30"></i>
+                    <i data-lucide="zap" class="w-64 h-64 text-yellow-200 opacity-30 transform rotate-12"></i>
                 </div>
             </div>
 
-            <div>
-                <h2 class="text-xl font-bold mb-4 flex items-center"><i data-lucide="grid" class="w-5 h-5 mr-2 text-spgRed"></i> জনপ্রিয় ক্যাটাগরি</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center cursor-pointer hover:shadow-md transition">
-                        <i data-lucide="lightbulb" class="w-8 h-8 mx-auto text-spgYellow mb-2"></i>
-                        <span class="text-xs font-bold">LED লাইট</span>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center cursor-pointer hover:shadow-md transition">
-                        <i data-lucide="fan" class="w-8 h-8 mx-auto text-blue-500 mb-2"></i>
-                        <span class="text-xs font-bold">ফ্যান ও কুলিং</span>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center cursor-pointer hover:shadow-md transition">
-                        <i data-lucide="toggle-right" class="w-8 h-8 mx-auto text-spgGreen mb-2"></i>
-                        <span class="text-xs font-bold">সুইচ ও সকেট</span>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center cursor-pointer hover:shadow-md transition">
-                        <i data-lucide="sun" class="w-8 h-8 mx-auto text-yellow-600 mb-2"></i>
-                        <span class="text-xs font-bold">সোলার পণ্য</span>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center cursor-pointer hover:shadow-md transition">
-                        <i data-lucide="droplet" class="w-8 h-8 mx-auto text-cyan-500 mb-2"></i>
-                        <span class="text-xs font-bold">স্যানিটারি</span>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center cursor-pointer hover:shadow-md transition border-2 border-spgYellow">
-                        <i data-lucide="shield-check" class="w-8 h-8 mx-auto text-spgRed mb-2"></i>
-                        <span class="text-xs font-bold text-spgRed">SPG নিজস্ব ব্র্যান্ড</span>
-                    </div>
+            <!-- Products Catalog Dynamic Grid -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-md border border-gray-100 dark:border-gray-700 space-y-6">
+                <div class="flex items-center justify-between border-b pb-4">
+                    <h2 class="text-xl font-black flex items-center"><i data-lucide="flame" class="w-5 h-5 mr-2 text-spgRed"></i> জনপ্রিয় পণ্যসমূহ</h2>
+                    <span class="text-xs bg-yellow-100 dark:bg-yellow-900/60 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full font-bold">Noon & Amazon Verified</span>
                 </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
-                <div class="flex justify-between items-center mb-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="bg-spgRed text-white p-1 rounded"><i data-lucide="flame" class="w-5 h-5"></i></span>
-                        <h2 class="text-xl font-bold">ফ্ল্যাশ ডিল (Flash Sale)</h2>
-                    </div>
-                    <span class="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full font-mono font-bold">সময় বাকি: 05h : 23m : 12s</span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="border rounded-xl p-4 relative hover:shadow-lg transition bg-white dark:bg-gray-800">
-                        <span class="absolute top-2 left-2 bg-spgRed text-white text-[10px] font-bold px-2 py-0.5 rounded">-20%</span>
-                        <div class="h-40 bg-gray-100 dark:bg-gray-700 rounded-lg mb-3 flex items-center justify-center">
-                            <i data-lucide="zap" class="w-16 h-16 text-spgYellow"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-spgGreen uppercase">SPG Brand</span>
-                        <h3 class="font-bold text-sm line-clamp-2 my-1">SPG 18W Smart Inverter LED Bulb</h3>
-                        <div class="flex items-center text-xs text-yellow-500 mb-2">
-                            ★★★★★ <span class="text-gray-400 text-[10px] ml-1">(48)</span>
-                        </div>
-                        <div class="flex items-baseline space-x-2">
-                            <span class="text-base font-extrabold">৳৪৫০</span>
-                            <span class="text-xs text-gray-400 line-through">৳৫৬০</span>
-                        </div>
-                        <button onclick="switchTab('cart')" class="w-full mt-3 bg-spgYellow text-black font-bold py-2 rounded-lg text-xs hover:bg-yellow-400 flex items-center justify-center gap-1">
-                            <i data-lucide="shopping-cart" class="w-4 h-4"></i> কার্টে যোগ করুন
-                        </button>
-                    </div>
-
-                    <div class="border rounded-xl p-4 relative hover:shadow-lg transition bg-white dark:bg-gray-800">
-                        <span class="absolute top-2 left-2 bg-spgRed text-white text-[10px] font-bold px-2 py-0.5 rounded">-15%</span>
-                        <div class="h-40 bg-gray-100 dark:bg-gray-700 rounded-lg mb-3 flex items-center justify-center">
-                            <i data-lucide="fan" class="w-16 h-16 text-blue-400"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-spgGreen uppercase">SPG Electronics</span>
-                        <h3 class="font-bold text-sm line-clamp-2 my-1">SPG High-Speed Ceiling Fan 56"</h3>
-                        <div class="flex items-center text-xs text-yellow-500 mb-2">
-                            ★★★★☆ <span class="text-gray-400 text-[10px] ml-1">(102)</span>
-                        </div>
-                        <div class="flex items-baseline space-x-2">
-                            <span class="text-base font-extrabold">৳৩,২০০</span>
-                            <span class="text-xs text-gray-400 line-through">৳৩,৭৫০</span>
-                        </div>
-                        <button onclick="switchTab('cart')" class="w-full mt-3 bg-spgYellow text-black font-bold py-2 rounded-lg text-xs hover:bg-yellow-400 flex items-center justify-center gap-1">
-                            <i data-lucide="shopping-cart" class="w-4 h-4"></i> কার্টে যোগ করুন
-                        </button>
-                    </div>
-
-                    <div class="border rounded-xl p-4 relative hover:shadow-lg transition bg-white dark:bg-gray-800">
-                        <div class="h-40 bg-gray-100 dark:bg-gray-700 rounded-lg mb-3 flex items-center justify-center">
-                            <i data-lucide="toggle-right" class="w-16 h-16 text-spgGreen"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-spgGreen uppercase">SPG Electrical</span>
-                        <h3 class="font-bold text-sm line-clamp-2 my-1">SPG Luxury Piano Switch Board</h3>
-                        <div class="flex items-center text-xs text-yellow-500 mb-2">
-                            ★★★★★ <span class="text-gray-400 text-[10px] ml-1">(29)</span>
-                        </div>
-                        <div class="flex items-baseline space-x-2">
-                            <span class="text-base font-extrabold">৳৬৮০</span>
-                        </div>
-                        <button onclick="switchTab('cart')" class="w-full mt-3 bg-spgYellow text-black font-bold py-2 rounded-lg text-xs hover:bg-yellow-400 flex items-center justify-center gap-1">
-                            <i data-lucide="shopping-cart" class="w-4 h-4"></i> কার্টে যোগ করুন
-                        </button>
-                    </div>
-
-                    <div class="border rounded-xl p-4 relative hover:shadow-lg transition bg-white dark:bg-gray-800">
-                        <span class="absolute top-2 left-2 bg-spgRed text-white text-[10px] font-bold px-2 py-0.5 rounded">-10%</span>
-                        <div class="h-40 bg-gray-100 dark:bg-gray-700 rounded-lg mb-3 flex items-center justify-center">
-                            <i data-lucide="sun" class="w-16 h-16 text-yellow-500"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-spgGreen uppercase">SPG Solar</span>
-                        <h3 class="font-bold text-sm line-clamp-2 my-1">SPG 100W Mono Solar Panel</h3>
-                        <div class="flex items-center text-xs text-yellow-500 mb-2">
-                            ★★★★★ <span class="text-gray-400 text-[10px] ml-1">(14)</span>
-                        </div>
-                        <div class="flex items-baseline space-x-2">
-                            <span class="text-base font-extrabold">৳৪,৫০০</span>
-                            <span class="text-xs text-gray-400 line-through">৳৫,০০০</span>
-                        </div>
-                        <button onclick="switchTab('cart')" class="w-full mt-3 bg-spgYellow text-black font-bold py-2 rounded-lg text-xs hover:bg-yellow-400 flex items-center justify-center gap-1">
-                            <i data-lucide="shopping-cart" class="w-4 h-4"></i> কার্টে যোগ করুন
-                        </button>
-                    </div>
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Dynamic Product Cards -->
                 </div>
             </div>
         </section>
 
+        <!-- CART VIEW -->
         <section id="view-cart" class="hidden space-y-6">
-            <h2 class="text-2xl font-bold flex items-center"><i data-lucide="shopping-bag" class="w-6 h-6 mr-2"></i> আপনার শপিং কার্ট</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 space-y-4">
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow flex items-center justify-between border">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center">
-                                <i data-lucide="zap" class="w-8 h-8 text-spgYellow"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-sm">SPG 18W Smart Inverter LED Bulb</h4>
-                                <span class="text-xs text-gray-500">ওয়ারেন্টি: ২ বছর</span>
-                                <div class="text-sm font-bold text-spgRed mt-1">৳৪৫০</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <button class="w-7 h-7 bg-gray-200 dark:bg-gray-700 rounded font-bold">-</button>
-                            <span class="font-bold text-sm">2</span>
-                            <button class="w-7 h-7 bg-gray-200 dark:bg-gray-700 rounded font-bold">+</button>
-                            <button class="text-red-500 ml-2"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
-                        </div>
-                    </div>
+            <h2 class="text-2xl font-black flex items-center"><i data-lucide="shopping-bag" class="w-7 h-7 mr-2 text-spgRed"></i> আপনার শপিং কার্ট</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-4" id="cart-items-container">
+                    <!-- Dynamic Cart Items -->
                 </div>
-
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border h-fit space-y-4">
-                    <h3 class="font-bold border-b pb-2">অর্ডার সামারি</h3>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow border border-gray-100 dark:border-gray-700 space-y-5 h-fit">
+                    <h3 class="font-bold border-b pb-2">অর্ডার হিসাব</h3>
                     <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>সাবটোটাল</span><span>৳৯০০</span></div>
-                        <div class="flex justify-between text-spgGreen"><span>ডিসকাウント (SUPER10)</span><span>-৳৯০</span></div>
-                        <div class="flex justify-between"><span>ডেলিভারি চার্জ</span><span>৳৬০</span></div>
+                        <div class="flex justify-between"><span>সাবটোটাল</span><span id="summary-subtotal">৳০</span></div>
+                        <div class="flex justify-between text-spgGreen font-bold"><span>ডিসকাউন্ট (SUPER10)</span><span id="summary-discount">-৳০</span></div>
+                        <div class="flex justify-between"><span>ডেলিভারি চার্জ</span><span id="summary-shipping">৳৬০</span></div>
                         <hr>
-                        <div class="flex justify-between font-bold text-base"><span>সর্বমোট</span><span>৳৮৭০</span></div>
+                        <div class="flex justify-between font-black text-lg text-spgRed"><span>সর্বমোট</span><span id="summary-total">৳০</span></div>
                     </div>
-                    <div class="flex gap-2">
-                        <input type="text" placeholder="কুপন কোড (যেমন: SUPER10)" class="flex-1 border text-xs px-3 py-2 rounded focus:outline-none dark:bg-gray-700">
-                        <button class="bg-black text-white px-3 py-2 rounded text-xs font-bold">আবেদন</button>
-                    </div>
-                    <button onclick="switchTab('checkout')" class="w-full bg-spgYellow text-black font-bold py-3 rounded-lg hover:bg-yellow-400">চেকআউট করুন (৫ ধাপ)</button>
+                    <button onclick="switchTab('checkout')" class="w-full bg-spgYellow text-black font-extrabold py-3.5 rounded-xl hover:bg-yellow-400 transition">৫-ধাপের চেকআউটে যান</button>
                 </div>
             </div>
         </section>
 
+        <!-- NOON/AMAZON STYLE 5-STEP CHECKOUT -->
         <section id="view-checkout" class="hidden space-y-6">
-            <h2 class="text-2xl font-bold">নিরাপদ চেকআউট</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow space-y-4">
-                    <h3 class="font-bold text-lg text-spgRed">১. পেমেন্ট পদ্ধতি নির্বাচন করুন</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <label class="border p-3 rounded-lg flex items-center space-x-2 cursor-pointer hover:border-spgRed">
-                            <input type="radio" name="payment" checked>
-                            <span class="font-bold text-xs">বিকাশ (bKash)</span>
-                        </label>
-                        <label class="border p-3 rounded-lg flex items-center space-x-2 cursor-pointer hover:border-spgRed">
-                            <input type="radio" name="payment">
-                            <span class="font-bold text-xs">নগদ (Nagad)</span>
-                        </label>
-                        <label class="border p-3 rounded-lg flex items-center space-x-2 cursor-pointer hover:border-spgRed">
-                            <input type="radio" name="payment">
-                            <span class="font-bold text-xs">ক্যাশ অন ডেলিভারি</span>
-                        </label>
-                        <label class="border p-3 rounded-lg flex items-center space-x-2 cursor-pointer hover:border-spgRed">
-                            <input type="radio" name="payment">
-                            <span class="font-bold text-xs">আন্তর্জাতিক কার্ড / PayPal</span>
-                        </label>
+            <h2 class="text-2xl font-black">নিরাপদ চেকআউট সিস্টেম</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow border border-gray-100 dark:border-gray-700 space-y-6">
+                    <!-- Payment Methods (bKash, Nagad, Rocket, Bangla QR, Google Pay, COD) -->
+                    <div>
+                        <h3 class="font-bold text-md text-spgRed flex items-center mb-3"><span class="bg-spgRed text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">১</span> পেমেন্ট গেটওয়ে নির্বাচন করুন</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label class="border p-3 rounded-xl flex items-center space-x-2 cursor-pointer hover:border-spgRed transition">
+                                <input type="radio" name="payment_method" checked>
+                                <span class="font-bold text-xs">বিকাশ (bKash)</span>
+                            </label>
+                            <label class="border p-3 rounded-xl flex items-center space-x-2 cursor-pointer hover:border-spgRed transition">
+                                <input type="radio" name="payment_method">
+                                <span class="font-bold text-xs">নগদ (Nagad)</span>
+                            </label>
+                            <label class="border p-3 rounded-xl flex items-center space-x-2 cursor-pointer hover:border-spgRed transition">
+                                <input type="radio" name="payment_method">
+                                <span class="font-bold text-xs">রকেট (Rocket)</span>
+                            </label>
+                            <label class="border p-3 rounded-xl flex items-center space-x-2 cursor-pointer hover:border-spgRed transition">
+                                <input type="radio" name="payment_method">
+                                <span class="font-bold text-xs">বাংলা QR</span>
+                            </label>
+                            <label class="border p-3 rounded-xl flex items-center space-x-2 cursor-pointer hover:border-spgRed transition">
+                                <input type="radio" name="payment_method">
+                                <span class="font-bold text-xs">Google Pay 💳</span>
+                            </label>
+                            <label class="border p-3 rounded-xl flex items-center space-x-2 cursor-pointer hover:border-spgRed transition">
+                                <input type="radio" name="payment_method">
+                                <span class="font-bold text-xs">ক্যাশ অন ডেলিভারি</span>
+                            </label>
+                        </div>
                     </div>
-                    <h3 class="font-bold text-lg text-spgRed pt-4">২. ডেলিভারি ঠিকানা</h3>
-                    <p class="text-xs text-gray-500">চট্টগ্রাম শাখা / হোম ডেলিভারি নির্বাচিত</p>
-                    <button onclick="alert('অর্ডার সফলভাবে সম্পন্ন হয়েছে! Order ID: #SPG89231')" class="w-full bg-spgGreen text-white font-bold py-3 rounded-lg text-sm mt-4">অর্ডার নিশ্চিত করুন (৳৮৭০)</button>
+
+                    <!-- Delivery Address & GPS -->
+                    <div>
+                        <h3 class="font-bold text-md text-spgRed flex items-center mb-3"><span class="bg-spgRed text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">২</span> শিপিং ঠিকানা</h3>
+                        <div class="space-y-3">
+                            <input type="text" placeholder="পূর্ণ নাম" class="w-full border p-3 rounded-xl text-xs dark:bg-gray-700" value="মোহাম্মদ শরিফ">
+                            <input type="text" placeholder="মোবাইল (OTP ভেরিফাইড)" class="w-full border p-3 rounded-xl text-xs dark:bg-gray-700" value="01800000000">
+                            <textarea placeholder="পূর্ণ ঠিকানা লিখুন" class="w-full border p-3 rounded-xl text-xs dark:bg-gray-700">জিইসি মোড়, চট্টগ্রাম</textarea>
+                        </div>
+                    </div>
+
+                    <button onclick="confirmOrder()" class="w-full bg-spgGreen text-white font-black py-4 rounded-xl shadow-xl hover:bg-green-600 transition">অর্ডার নিশ্চিত করুন</button>
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl">
-                    <h3 class="font-bold mb-4">অর্ডার বিবরণ</h3>
-                    <p class="text-xs mb-2">পণ্য: SPG 18W Smart Inverter LED Bulb (x2)</p>
-                    <p class="text-xs font-bold text-spgGreen">সম্ভাব্য ডেলিভারি সময়: ২৪ - ৪৮ ঘণ্টা</p>
+
+                <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-2xl h-fit border space-y-4">
+                    <h3 class="font-bold border-b pb-2">অর্ডার সামারি</h3>
+                    <p class="text-xs text-gray-500">চট্টগ্রাম শাখা / হোম ডেলিভারি সার্ভিস নির্বাচিত</p>
+                    <div class="text-sm font-bold text-spgRed" id="checkout-total-val">সর্বমোট: ৳০</div>
                 </div>
             </div>
         </section>
 
+        <!-- ACCOUNT & AMAZON MANAGEMENT HUB -->
         <section id="view-account" class="hidden space-y-6">
-            <h2 class="text-2xl font-bold">মাই অ্যাকাউন্ট</h2>
+            <h2 class="text-2xl font-black">কাস্টমার অ্যাকাউন্ট ও ম্যানেজমেন্ট সিস্টেম</h2>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow space-y-2 text-sm font-semibold">
-                    <div class="p-2 bg-spgYellow text-black rounded cursor-pointer">My Profile</div>
-                    <div class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer">My Orders</div>
-                    <div class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer">Warranty & Guarantee</div>
-                    <div class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer text-spgRed">Product Return & Refund</div>
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow border space-y-2 text-sm font-semibold">
+                    <div onclick="showAccountTab('profile')" class="p-3 bg-spgYellow text-black rounded-xl cursor-pointer font-bold">আমার প্রোফাইল</div>
+                    <div onclick="showAccountTab('orders')" class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl cursor-pointer">অর্ডার হিস্টোরি (Order Tracking)</div>
+                    <div onclick="showAccountTab('returns')" class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl cursor-pointer text-spgRed">রিটার্ন ও রিফান্ড আবেদন</div>
+                    <div onclick="showAccountTab('support')" class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl cursor-pointer">কাস্টমার সাপোর্ট টিকেট</div>
                 </div>
-                <div class="md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-xl shadow space-y-4">
-                    <h3 class="font-bold text-lg border-b pb-2">পণ্য রিটার্ন ও রিফান্ড আবেদন (Return & Refund)</h3>
-                    <form onsubmit="event.preventDefault(); alert('আপনার রিটার্ন আবেদনটি জমা দেওয়া হয়েছে। তদন্তের পর রিফান্ড প্রক্রিয়া শুরু হবে।');" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold mb-1">অর্ডার নির্বাচন করুন</label>
-                            <select class="w-full border p-2 rounded text-sm dark:bg-gray-700">
-                                <option>Order #SPG89231 - SPG 18W LED Bulb (৳৮৭০)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold mb-1">ফেরতের কারণ</label>
-                            <select class="w-full border p-2 rounded text-sm dark:bg-gray-700">
-                                <option>ত্রুটিপূর্ণ বা ক্ষতিগ্রস্ত পণ্য</option>
-                                <option>ভুল পণ্য সরবরাহ করা হয়েছে</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold mb-1">পণ্যের ছবি আপলোড করুন</label>
-                            <input type="file" class="text-xs">
-                        </div>
-                        <button type="submit" class="bg-spgRed text-white font-bold px-6 py-2 rounded text-sm">রিটার্ন আবেদন জমা দিন</button>
-                    </form>
+
+                <div class="md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow border space-y-4">
+                    <div id="acc-panel-profile">
+                        <h3 class="font-bold text-lg border-b pb-2">প্রোফাইল তথ্য (Verified User)</h3>
+                        <p class="text-xs text-gray-500 pt-2">নাম: মোহাম্মদ শরিফ</p>
+                        <p class="text-xs text-gray-500">মোবাইল: +৮৮০১৮০০০-০০০০০ (OTP ভেরিফাইড)</p>
+                        <p class="text-xs text-gray-500">ইমেইল: customer@spgmart.com</p>
+                    </div>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <div id="location-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-xl w-full p-6 space-y-4">
-            <div class="flex justify-between items-center">
-                <h3 class="font-bold text-lg">আপনার ডেলিভারি লোকেশন নির্বাচন করুন</h3>
-                <button onclick="closeLocationModal()" class="text-gray-500">✕</button>
+    <!-- AI CUSTOMER ASSISTANT (SMART CHATBOT) -->
+    <div class="fixed bottom-20 right-6 z-50">
+        <button onclick="toggleAIChat()" class="bg-spgRed text-white p-3.5 rounded-full shadow-2xl hover:scale-110 transition flex items-center gap-2 border-2 border-white">
+            <i data-lucide="bot" class="w-6 h-6"></i>
+            <span class="text-xs font-black hidden md:inline">SPG AI Assistant</span>
+        </button>
+
+        <div id="ai-chat-modal" class="hidden absolute bottom-14 right-0 w-80 sm:w-96 bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-2xl rounded-3xl p-4 flex-col space-y-3 z-50">
+            <div class="flex items-center justify-between border-b pb-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+                    <span class="font-bold text-sm">SPG Smart AI Assistant</span>
+                </div>
+                <button onclick="toggleAIChat()" class="text-gray-400 font-bold">✕</button>
             </div>
-            <div id="map" class="h-64 w-full rounded-lg border"></div>
-            <button onclick="closeLocationModal()" class="w-full bg-spgYellow text-black font-bold py-2 rounded">অবস্থান নিশ্চিত করুন</button>
+            <div id="chat-messages" class="h-60 overflow-y-auto space-y-2 text-xs p-2 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                <div class="bg-spgYellow/20 p-2.5 rounded-2xl text-gray-800 dark:text-gray-100 max-w-[85%]">
+                    হ্যালো! আমি SPG-এর এআই অ্যাসিস্ট্যান্ট। পণ্য, অর্ডার বা ওয়ারেন্টি সম্পর্কিত যেকোনো প্রশ্ন জিজ্ঞেস করতে পারেন।
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" id="ai-user-input" placeholder="আপনার প্রশ্নটি লিখুন..." class="flex-1 border p-2 rounded-xl text-xs dark:bg-gray-700 outline-none">
+                <button onclick="sendAIMessage()" class="bg-black text-spgYellow px-3 py-2 rounded-xl text-xs font-bold">পাঠান</button>
+            </div>
         </div>
     </div>
 
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around py-2 z-50 text-[10px] font-bold">
+    <!-- AUTHENTICATION & OTP MODAL -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-md w-full p-6 space-y-4 relative">
+            <button onclick="closeAuthModal()" class="absolute right-4 top-4 font-bold text-gray-500">✕</button>
+            <h3 class="font-black text-xl text-center">SPG MART কাস্টমার লগইন / সাইনআপ</h3>
+            <div id="auth-step-1" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold mb-1">আপনার নাম</label>
+                    <input type="text" id="auth-name" placeholder="আপনার নাম লিখুন" class="w-full border p-3 rounded-xl text-xs dark:bg-gray-700">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">মোবাইল নম্বর</label>
+                    <input type="text" id="auth-phone" placeholder="018XXXXXXXX" class="w-full border p-3 rounded-xl text-xs dark:bg-gray-700">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">ইমেইল ঠিকানা</label>
+                    <input type="email" id="auth-email" placeholder="example@mail.com" class="w-full border p-3 rounded-xl text-xs dark:bg-gray-700">
+                </div>
+                <button onclick="sendOTP()" class="w-full bg-spgYellow text-black font-extrabold py-3 rounded-xl">OTP কোড পাঠান</button>
+            </div>
+            <div id="auth-step-2" class="hidden space-y-3">
+                <p class="text-xs text-center text-spgGreen font-bold">আপনার মোবাইলে ৪-সংখ্যার OTP পাঠানো হয়েছে!</p>
+                <input type="text" id="auth-otp" placeholder="OTP লিখুন (যেমন: 1234)" class="w-full border p-3 rounded-xl text-center font-mono font-bold text-lg dark:bg-gray-700">
+                <button onclick="verifyOTP()" class="w-full bg-spgGreen text-white font-extrabold py-3 rounded-xl">ভেরিফাই ও সাইনইন করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOCATION MODAL WITH LIVE GPS -->
+    <div id="location-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-xl w-full p-6 space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold text-lg">আপনার ডেলিভারি লোকেশন নির্বাচন করুন</h3>
+                <button onclick="closeLocationModal()" class="text-gray-500 font-bold">✕</button>
+            </div>
+            <button onclick="detectGPSLocation()" class="w-full bg-spgBlue text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+                <i data-lucide="navigation" class="w-4 h-4"></i> বর্তমান লাইভ লোকেশন ডিটেক্ট করুন (GPS)
+            </button>
+            <div id="map" class="h-60 w-full rounded-2xl border"></div>
+            <button onclick="closeLocationModal()" class="w-full bg-spgYellow text-black font-extrabold py-3 rounded-xl">অবস্থান নিশ্চিত করুন</button>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation (5 Options) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around py-2.5 z-50 text-[10px] font-bold shadow-lg">
         <button onclick="switchTab('home')" class="flex flex-col items-center text-spgRed">
             <i data-lucide="home" class="w-5 h-5"></i>
             <span>Home</span>
@@ -435,48 +414,161 @@ HTML_TEMPLATE = """
         <button onclick="switchTab('cart')" class="flex flex-col items-center text-gray-500 relative">
             <i data-lucide="shopping-cart" class="w-5 h-5"></i>
             <span>Cart</span>
-            <span class="absolute top-0 right-2 bg-spgRed text-white text-[8px] rounded-full w-3 h-3 flex items-center justify-center">3</span>
+            <span id="mobile-cart-badge" class="absolute -top-1 right-2 bg-spgRed text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-extrabold">0</span>
         </button>
     </div>
 
+    <!-- Master Interactive JavaScript Engine -->
     <script>
-        lucide.createIcons();
+        const products = [
+            { id: 1, name: "SPG 18W Inverter Smart LED Bulb", category: "lighting", price: 450, oldPrice: 560, sku: "SPG-LED-01", isSpg: true, icon: "zap" },
+            { id: 2, name: 'SPG High-Speed Ceiling Fan 56"', category: "cooling", price: 3200, oldPrice: 3750, sku: "SPG-FAN-56", isSpg: true, icon: "fan" },
+            { id: 3, name: "SPG Luxury Piano Switch Board (8 Gang)", category: "switch", price: 680, oldPrice: 800, sku: "SPG-SW-08", isSpg: true, icon: "toggle-right" },
+            { id: 4, name: "SPG 100W Mono Solar Panel Heavy", category: "solar", price: 4500, oldPrice: 5000, sku: "SPG-SOL-100", isSpg: true, icon: "sun" },
+            { id: 5, name: "SPG Chrome Basin Mixer Tap Sanitary", category: "sanitary", price: 1850, oldPrice: 2200, sku: "SPG-SAN-01", isSpg: false, icon: "droplet" }
+        ];
 
-        function switchTab(tabId) {
-            document.getElementById('view-home').classList.add('hidden');
-            document.getElementById('view-cart').classList.add('hidden');
-            document.getElementById('view-checkout').classList.add('hidden');
-            document.getElementById('view-account').classList.add('hidden');
+        let cart = [];
+        let currentLang = 'bn';
 
-            document.getElementById('view-' + tabId).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function setTheme(theme) {
+            document.documentElement.className = 'theme-' + theme;
+            if (theme === 'dark') document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
         }
 
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
+        function toggleLanguage() {
+            if (currentLang === 'bn') {
+                currentLang = 'en';
+                document.getElementById('current-lang-text').innerText = 'বাংলা 🇧🇩';
+                document.getElementById('lbl-cart').innerText = 'Cart';
+                document.getElementById('lbl-del-loc').innerText = 'Delivery Location';
+            } else {
+                currentLang = 'bn';
+                document.getElementById('current-lang-text').innerText = 'English 🇬🇧';
+                document.getElementById('lbl-cart').innerText = 'কার্ট';
+                document.getElementById('lbl-del-loc').innerText = 'ডেলিভারি লোকেশন';
+            }
+        }
+
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = items.map(p => `
+                <div class="border rounded-2xl p-4 relative hover:shadow-xl transition bg-white dark:bg-gray-800 flex flex-col justify-between border-gray-100 dark:border-gray-700">
+                    <div>
+                        <div class="h-44 bg-gray-50 dark:bg-gray-700/50 rounded-xl mb-3 flex items-center justify-center">
+                            <i data-lucide="${p.icon}" class="w-16 h-16 text-spgYellow"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-spgGreen uppercase">${p.isSpg ? 'SPG Brand' : 'Vendor'}</span>
+                        <h3 class="font-bold text-sm line-clamp-2 my-1">${p.name}</h3>
+                    </div>
+                    <div class="mt-2">
+                        <div class="flex items-baseline space-x-2 mb-3">
+                            <span class="text-lg font-black">৳${p.price}</span>
+                        </div>
+                        <button onclick="addToCart(${p.id})" class="w-full bg-spgYellow text-black font-extrabold py-2 rounded-xl text-xs hover:bg-yellow-400 transition flex items-center justify-center gap-1.5 shadow">
+                            <i data-lucide="shopping-cart" class="w-4 h-4"></i> কার্টে যোগ করুন
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const item = cart.find(i => i.id === id);
+            if (item) item.qty++;
+            else cart.push({ ...product, qty: 1 });
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((s, i) => s + i.qty, 0);
+            document.getElementById('cart-badge-count').innerText = count;
+            document.getElementById('mobile-cart-badge').innerText = count;
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+            document.getElementById('summary-subtotal').innerText = '৳' + subtotal;
+            document.getElementById('summary-total').innerText = '৳' + (subtotal > 0 ? subtotal + 60 : 0);
+        }
+
+        function toggleAIChat() {
+            const modal = document.getElementById('ai-chat-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('ai-user-input');
+            const txt = input.value.trim();
+            if (!txt) return;
+            const container = document.getElementById('chat-messages');
+            container.innerHTML += `<div class="bg-gray-200 dark:bg-gray-600 p-2.5 rounded-2xl text-right max-w-[85%] ml-auto font-bold">${txt}</div>`;
+            input.value = '';
+            
+            setTimeout(() => {
+                let reply = "ধন্যবাদ! SPG MART-এর পক্ষ থেকে আপনাকে কীভাবে সাহায্য করতে পারি? আপনি প্রোডাক্ট গ্যারান্টি, হোম ডেলিভারি বা রিটার্ন সুবিধা সম্পর্কে জানতে পারেন।";
+                if(txt.includes("ডেলিভারি")) reply = "চট্টগ্রাম শহরের ভেতরে ২৪ ঘণ্টার মধ্যে ডেলিভারি দেওয়া হয়। সারা বাংলাদেশে ৪৮-৭২ ঘণ্টা সময় লাগে।";
+                if(txt.includes("রিটার্ন")) reply = "SPG MART-এ ৭ দিনের রিপ্লেসমেন্ট ও ২ বছরের প্রোডাক্ট ওয়ারেন্টি সুবিধা বিদ্যমান।";
+                container.innerHTML += `<div class="bg-spgYellow/30 p-2.5 rounded-2xl max-w-[85%]">${reply}</div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 600);
+        }
+
+        function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); document.getElementById('auth-modal').classList.add('flex'); }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
+        function sendOTP() { document.getElementById('auth-step-1').classList.add('hidden'); document.getElementById('auth-step-2').classList.remove('hidden'); }
+        function verifyOTP() {
+            const name = document.getElementById('auth-name').value || "মোহাম্মদ শরিফ";
+            document.getElementById('user-display-name').innerText = name;
+            closeAuthModal();
+            alert('সফলভাবে ভেরিফাইড এবং সাইনইন সম্পন্ন হয়েছে!');
         }
 
         let mapInitialized = false;
         function openLocationModal() {
             document.getElementById('location-modal').classList.remove('hidden');
             document.getElementById('location-modal').classList.add('flex');
-            
             if (!mapInitialized) {
                 setTimeout(() => {
                     const map = L.map('map').setView([22.3569, 91.7832], 12);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                    }).addTo(map);
-                    L.marker([22.3569, 91.7832]).addTo(map).bindPopup('SPG MART Chittagong Main Hub').openPopup();
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                    L.marker([22.3569, 91.7832]).addTo(map).bindPopup('SPG MART চট্টগ্রাম সেন্ট্রাল হাব').openPopup();
                     mapInitialized = true;
                 }, 200);
             }
         }
+        function closeLocationModal() { document.getElementById('location-modal').classList.add('hidden'); }
 
-        function closeLocationModal() {
-            document.getElementById('location-modal').classList.add('hidden');
-            document.getElementById('location-modal').classList.remove('flex');
+        function detectGPSLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    document.getElementById('selected-location-text').innerText = `GPS: ${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}`;
+                    closeLocationModal();
+                });
+            }
         }
+
+        function switchTab(id) {
+            ['home', 'cart', 'checkout', 'account'].forEach(t => document.getElementById('view-' + t).classList.add('hidden'));
+            document.getElementById('view-' + id).classList.remove('hidden');
+        }
+
+        function filterCategory(cat) {
+            if (cat === 'all') renderProducts(products);
+            else if (cat === 'spg_own') renderProducts(products.filter(p => p.isSpg));
+            else renderProducts(products.filter(p => p.category === cat));
+        }
+
+        function confirmOrder() {
+            alert('আপনার অর্ডার সফলভাবে নিশ্চিত করা হয়েছে! Order ID: #SPG-88931');
+            cart = [];
+            updateCartUI();
+            switchTab('home');
+        }
+
+        renderProducts(products);
+        lucide.createIcons();
     </script>
 </body>
 </html>
