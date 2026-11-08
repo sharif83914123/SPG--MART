@@ -1,389 +1,1266 @@
-"en" class="light">
+<!DOCTYPE html>
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPG MART - International Premium E-Commerce</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        spgYellow: '#FEEE00',
-                        spgNavy: '#172337',
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>SPG MART — Super Power Group</title>
+<style>
+  :root{
+    --spg-dark:#0f172a;
+    --spg-orange:#f97316;
+    --spg-yellow:#fbbf24;
+    --spg-bg:#f8fafc;
+    --spg-card:#ffffff;
+    --spg-border:#e5e7eb;
+    --spg-text:#1f2937;
+    --spg-muted:#6b7280;
+    --spg-success:#16a34a;
+    --spg-danger:#dc2626;
+    --shadow:0 4px 14px rgba(15,23,42,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{font-family:'Segoe UI','Hind Siliguri',system-ui,sans-serif;background:var(--spg-bg);color:var(--spg-text);font-size:14px;line-height:1.45}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;border:none;background:none}
+
+  /* ===== TOP HEADER ===== */
+  .top-header{
+    position:sticky;top:0;z-index:50;
+    background:var(--spg-dark);
+    padding:10px 12px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+  }
+  .logo{
+    font-weight:800;font-size:18px;color:#fff;
+    display:flex;align-items:center;gap:6px;white-space:nowrap;
+  }
+  .logo .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:linear-gradient(135deg,var(--spg-orange),var(--spg-yellow));
+  }
+  .logo small{display:block;font-size:9px;font-weight:500;color:var(--spg-yellow);letter-spacing:1px}
+  .search-bar{
+    flex:1;display:flex;align-items:center;
+    background:#fff;border-radius:24px;
+    padding:6px 12px;gap:8px;
+  }
+  .search-bar input{
+    flex:1;border:none;outline:none;font-size:13px;background:transparent;
+  }
+  .search-bar svg{width:16px;height:16px;color:var(--spg-muted)}
+
+  /* ===== MAIN ===== */
+  main{padding-bottom:80px}
+  .hero{
+    margin:12px;border-radius:16px;overflow:hidden;position:relative;
+    background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);
+    color:#fff;padding:18px;min-height:150px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .hero::before{
+    content:"";position:absolute;right:-30px;top:-30px;
+    width:140px;height:140px;border-radius:50%;
+    background:radial-gradient(circle,var(--spg-orange),transparent 70%);
+    opacity:.5;
+  }
+  .hero .tag{
+    display:inline-block;background:var(--spg-orange);
+    padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;
+    margin-bottom:8px;width:fit-content;
+  }
+  .hero h2{font-size:18px;margin-bottom:4px;position:relative}
+  .hero p{font-size:12px;opacity:.85;margin-bottom:10px;position:relative}
+  .hero button{
+    background:var(--spg-yellow);color:var(--spg-dark);
+    padding:8px 16px;border-radius:20px;font-weight:700;font-size:12px;
+    width:fit-content;position:relative;
+  }
+
+  .section-title{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 14px 8px;
+  }
+  .section-title h3{font-size:15px;font-weight:700}
+  .section-title a{font-size:12px;color:var(--spg-orange);font-weight:600}
+
+  .cat-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+    padding:0 12px;
+  }
+  .cat-item{
+    background:var(--spg-card);border-radius:12px;padding:10px 6px;
+    text-align:center;box-shadow:var(--shadow);
+  }
+  .cat-item .icon{
+    width:40px;height:40px;border-radius:50%;margin:0 auto 6px;
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+  }
+  .cat-item span{font-size:11px;font-weight:600;color:var(--spg-text)}
+
+  .products{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 12px}
+  .product{
+    background:var(--spg-card);border-radius:12px;overflow:hidden;
+    box-shadow:var(--shadow);position:relative;cursor:pointer;
+    transition:transform .15s;
+  }
+  .product:active{transform:scale(.98)}
+  .product .badge{
+    position:absolute;top:8px;left:8px;z-index:2;
+    background:var(--spg-danger);color:#fff;
+    font-size:10px;font-weight:700;padding:3px 7px;border-radius:10px;
+  }
+  .product img{width:100%;aspect-ratio:1;object-fit:cover;background:#f3f4f6}
+  .product .info{padding:8px 10px 10px}
+  .product .name{font-size:12px;font-weight:600;line-height:1.3;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:32px}
+  .product .rating{font-size:10px;color:var(--spg-muted);margin:3px 0}
+  .product .rating b{color:var(--spg-yellow)}
+  .product .price{display:flex;align-items:baseline;gap:5px;margin-bottom:6px}
+  .product .price b{color:var(--spg-orange);font-size:14px}
+  .product .price s{font-size:11px;color:var(--spg-muted)}
+  .product .add-btn{
+    width:100%;background:var(--spg-dark);color:#fff;
+    padding:7px;border-radius:8px;font-size:12px;font-weight:600;
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;z-index:100;
+    background:#fff;border-top:1px solid var(--spg-border);
+    display:flex;justify-content:space-around;
+    padding:6px 0 calc(6px + env(safe-area-inset-bottom));
+    box-shadow:0 -2px 10px rgba(0,0,0,.06);
+  }
+  .nav-btn{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+    padding:6px 2px;color:var(--spg-muted);position:relative;
+    transition:color .2s;
+  }
+  .nav-btn.active{color:var(--spg-orange)}
+  .nav-btn svg{width:22px;height:22px}
+  .nav-btn span{font-size:10px;font-weight:600}
+  .nav-btn .count{
+    position:absolute;top:0;right:calc(50% - 18px);
+    background:var(--spg-danger);color:#fff;
+    font-size:9px;font-weight:700;
+    min-width:16px;height:16px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;padding:0 4px;
+  }
+
+  /* ===== PANELS ===== */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.5);
+    z-index:200;opacity:0;pointer-events:none;transition:opacity .25s;
+  }
+  .overlay.show{opacity:1;pointer-events:auto}
+  .panel{
+    position:fixed;bottom:0;left:0;right:0;z-index:300;
+    background:#fff;border-radius:20px 20px 0 0;
+    max-height:88vh;overflow-y:auto;
+    transform:translateY(100%);transition:transform .3s ease;
+    padding-bottom:calc(20px + env(safe-area-inset-bottom));
+  }
+  .panel.show{transform:translateY(0)}
+  .panel-header{
+    position:sticky;top:0;background:#fff;z-index:5;
+    padding:14px 16px;border-bottom:1px solid var(--spg-border);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .panel-header h3{font-size:16px;font-weight:700}
+  .panel-header .close{
+    width:30px;height:30px;border-radius:50%;
+    background:#f3f4f6;display:flex;align-items:center;justify-content:center;
+    font-size:18px;color:var(--spg-muted);
+  }
+  .panel-body{padding:12px 16px}
+
+  .acct-tabs{
+    display:flex;gap:6px;overflow-x:auto;padding:10px 16px;
+    background:#fafafa;border-bottom:1px solid var(--spg-border);
+    scrollbar-width:none;
+  }
+  .acct-tabs::-webkit-scrollbar{display:none}
+  .acct-tab{
+    padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;
+    white-space:nowrap;background:#fff;border:1px solid var(--spg-border);
+    color:var(--spg-muted);
+  }
+  .acct-tab.active{background:var(--spg-dark);color:#fff;border-color:var(--spg-dark)}
+
+  .form-group{margin-bottom:12px}
+  .form-group label{display:block;font-size:12px;font-weight:600;margin-bottom:5px;color:var(--spg-text)}
+  .form-group input,.form-group select,.form-group textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--spg-border);
+    border-radius:10px;font-size:13px;outline:none;background:#fff;
+  }
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--spg-orange)}
+  .btn-primary{
+    width:100%;background:var(--spg-orange);color:#fff;
+    padding:11px;border-radius:10px;font-weight:700;font-size:13px;
+  }
+  .btn-outline{
+    width:100%;background:#fff;color:var(--spg-dark);
+    padding:10px;border-radius:10px;font-weight:600;font-size:13px;
+    border:1px solid var(--spg-border);
+  }
+
+  .menu-list{display:flex;flex-direction:column;gap:2px}
+  .menu-item{
+    display:flex;align-items:center;gap:12px;padding:12px;
+    border-radius:10px;transition:background .15s;
+  }
+  .menu-item:active{background:#f3f4f6}
+  .menu-item .mi-icon{
+    width:36px;height:36px;border-radius:10px;
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    display:flex;align-items:center;justify-content:center;font-size:16px;
+    flex-shrink:0;
+  }
+  .menu-item .mi-text{flex:1}
+  .menu-item .mi-text b{display:block;font-size:13px;font-weight:600}
+  .menu-item .mi-text small{font-size:11px;color:var(--spg-muted)}
+  .menu-item .mi-arrow{color:var(--spg-muted);font-size:14px}
+
+  .toggle-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 0;border-bottom:1px solid var(--spg-border);
+  }
+  .toggle-row:last-child{border-bottom:none}
+  .toggle-row span{font-size:13px;font-weight:500}
+  .switch{
+    position:relative;width:40px;height:22px;background:#d1d5db;
+    border-radius:11px;transition:background .2s;cursor:pointer;
+  }
+  .switch::after{
+    content:"";position:absolute;top:2px;left:2px;
+    width:18px;height:18px;border-radius:50%;background:#fff;
+    transition:left .2s;
+  }
+  .switch.on{background:var(--spg-success)}
+  .switch.on::after{left:20px}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;
+    background:#f3f4f6;color:var(--spg-text);cursor:pointer;
+    border:1px solid transparent;
+  }
+  .chip.active{background:var(--spg-dark);color:#fff}
+
+  .empty-state{
+    text-align:center;padding:40px 20px;color:var(--spg-muted);
+  }
+  .empty-state .emoji{font-size:48px;margin-bottom:10px}
+  .empty-state p{font-size:13px}
+
+  .social-row{display:flex;gap:10px;margin-top:10px}
+  .social-btn{
+    flex:1;padding:12px;border-radius:12px;text-align:center;
+    font-size:12px;font-weight:600;color:#fff;
+  }
+  .social-btn.fb{background:#1877f2}
+  .social-btn.wa{background:#25d366}
+  .social-btn.ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+
+  .ref-box{
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    padding:16px;border-radius:12px;text-align:center;
+  }
+  .ref-box code{
+    display:block;font-size:18px;font-weight:800;color:var(--spg-dark);
+    margin:8px 0;letter-spacing:2px;
+  }
+
+  .notice{
+    background:#fef3c7;border-left:3px solid var(--spg-yellow);
+    padding:10px 12px;border-radius:8px;font-size:11px;
+    color:#78350f;margin:10px 0;
+  }
+
+  .order-card{
+    background:#fff;border:1px solid var(--spg-border);
+    border-radius:12px;padding:12px;margin-bottom:10px;
+    cursor:pointer;transition:box-shadow .15s;
+  }
+  .order-card:active{box-shadow:var(--shadow)}
+  .order-card .top{display:flex;justify-content:space-between;margin-bottom:6px}
+  .order-card .top b{font-size:13px}
+  .order-card .status{font-size:11px;color:var(--spg-success);font-weight:600}
+  .order-card .meta{font-size:11px;color:var(--spg-muted)}
+  .order-card .track-btn{
+    display:inline-block;margin-top:8px;font-size:11px;font-weight:600;
+    color:var(--spg-orange);
+  }
+
+  /* ===== ORDER TRACKING TIMELINE ===== */
+  .tracking-header{
+    background:linear-gradient(135deg,#1e293b,#0f172a);
+    color:#fff;border-radius:14px;padding:14px;margin-bottom:14px;
+  }
+  .tracking-header .oid{font-size:11px;opacity:.7;letter-spacing:.5px}
+  .tracking-header .ostatus{font-size:16px;font-weight:700;margin:4px 0}
+  .tracking-header .oeta{font-size:12px;opacity:.85}
+  .tracking-header .oeta b{color:var(--spg-yellow)}
+
+  .timeline{position:relative;padding-left:32px;margin:14px 0}
+  .timeline::before{
+    content:"";position:absolute;left:11px;top:8px;bottom:8px;
+    width:2px;background:var(--spg-border);
+  }
+  .tl-step{position:relative;padding-bottom:18px}
+  .tl-step:last-child{padding-bottom:0}
+  .tl-step .tl-dot{
+    position:absolute;left:-32px;top:2px;
+    width:24px;height:24px;border-radius:50%;
+    background:#fff;border:2px solid var(--spg-border);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:var(--spg-muted);
+    z-index:2;
+  }
+  .tl-step.done .tl-dot{
+    background:var(--spg-success);border-color:var(--spg-success);color:#fff;
+  }
+  .tl-step.current .tl-dot{
+    background:var(--spg-orange);border-color:var(--spg-orange);color:#fff;
+    box-shadow:0 0 0 4px rgba(249,115,22,.2);
+    animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 4px rgba(249,115,22,.2)}
+    50%{box-shadow:0 0 0 8px rgba(249,115,22,.05)}
+  }
+  .tl-step .tl-title{font-size:13px;font-weight:700;color:var(--spg-text)}
+  .tl-step.pending .tl-title{color:var(--spg-muted);font-weight:500}
+  .tl-step .tl-time{font-size:11px;color:var(--spg-muted);margin-top:2px}
+  .tl-step .tl-note{
+    font-size:11px;color:var(--spg-text);margin-top:4px;
+    background:#f3f4f6;padding:6px 10px;border-radius:8px;
+    display:inline-block;
+  }
+  .tl-step.current .tl-note{background:#fff7ed;color:#9a3412}
+
+  .delivery-info{
+    background:#f0fdf4;border:1px solid #bbf7d0;
+    border-radius:12px;padding:12px;margin-top:10px;
+    display:flex;gap:10px;align-items:center;
+  }
+  .delivery-info .avatar{
+    width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg,var(--spg-orange),var(--spg-yellow));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:16px;
+  }
+  .delivery-info b{font-size:13px;display:block}
+  .delivery-info small{font-size:11px;color:var(--spg-muted)}
+  .delivery-info .call{
+    margin-left:auto;background:var(--spg-success);color:#fff;
+    padding:7px 12px;border-radius:20px;font-size:11px;font-weight:600;
+  }
+
+  .order-items{margin-top:14px}
+  .order-items h4{font-size:13px;font-weight:700;margin-bottom:8px}
+  .oi-row{
+    display:flex;gap:10px;padding:10px;background:#fafafa;
+    border-radius:10px;margin-bottom:8px;align-items:center;
+  }
+  .oi-row img{width:50px;height:50px;border-radius:8px;object-fit:cover}
+  .oi-row .oi-info{flex:1}
+  .oi-row .oi-info b{font-size:12px;display:block;line-height:1.3}
+  .oi-row .oi-info small{font-size:11px;color:var(--spg-muted)}
+  .oi-row .oi-price{font-size:13px;font-weight:700;color:var(--spg-orange)}
+
+  /* ===== PRODUCT DETAIL PAGE ===== */
+  .pd-panel{max-height:95vh}
+  .pd-gallery{
+    position:relative;background:#f3f4f6;
+    aspect-ratio:1;overflow:hidden;
+  }
+  .pd-gallery img{width:100%;height:100%;object-fit:cover}
+  .pd-gallery .pd-badge{
+    position:absolute;top:12px;left:12px;
+    background:var(--spg-danger);color:#fff;
+    padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;
+  }
+  .pd-gallery .pd-back{
+    position:absolute;top:12px;right:12px;
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.9);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;color:var(--spg-dark);
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+  }
+  .pd-gallery .pd-fav{
+    position:absolute;top:12px;right:56px;
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.9);
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+  }
+  .pd-thumbs{
+    display:flex;gap:6px;padding:10px 14px;background:#fff;
+    overflow-x:auto;scrollbar-width:none;
+  }
+  .pd-thumbs::-webkit-scrollbar{display:none}
+  .pd-thumbs img{
+    width:50px;height:50px;border-radius:8px;object-fit:cover;
+    border:2px solid transparent;cursor:pointer;flex-shrink:0;
+  }
+  .pd-thumbs img.active{border-color:var(--spg-orange)}
+
+  .pd-info{padding:14px}
+  .pd-cat{font-size:11px;color:var(--spg-muted);text-transform:uppercase;letter-spacing:.5px}
+  .pd-title{font-size:16px;font-weight:700;margin:4px 0 8px;line-height:1.35}
+  .pd-rating{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--spg-muted);margin-bottom:10px}
+  .pd-rating .stars{color:var(--spg-yellow)}
+  .pd-rating b{color:var(--spg-text)}
+  .pd-price-row{
+    display:flex;align-items:baseline;gap:8px;margin-bottom:12px;
+    padding:12px;background:linear-gradient(135deg,#fff7ed,#fef3c7);
+    border-radius:12px;
+  }
+  .pd-price{font-size:22px;font-weight:800;color:var(--spg-orange)}
+  .pd-old{font-size:13px;color:var(--spg-muted);text-decoration:line-through}
+  .pd-off{font-size:11px;font-weight:700;color:var(--spg-danger);
+    background:#fee2e2;padding:3px 8px;border-radius:10px;margin-left:auto}
+
+  .pd-section{margin:14px 0;padding:12px;background:#fafafa;border-radius:12px}
+  .pd-section h4{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+
+  .pd-variants{display:flex;flex-wrap:wrap;gap:8px}
+  .pd-var{
+    padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;
+    background:#fff;border:1px solid var(--spg-border);cursor:pointer;
+  }
+  .pd-var.active{background:var(--spg-dark);color:#fff;border-color:var(--spg-dark)}
+
+  .pd-qty{
+    display:flex;align-items:center;gap:12px;
+  }
+  .pd-qty button{
+    width:32px;height:32px;border-radius:50%;
+    background:#fff;border:1px solid var(--spg-border);
+    font-size:16px;font-weight:700;color:var(--spg-text);
+  }
+  .pd-qty span{font-size:15px;font-weight:700;min-width:24px;text-align:center}
+
+  .pd-specs{font-size:12px}
+  .pd-specs .row{
+    display:flex;justify-content:space-between;
+    padding:8px 0;border-bottom:1px dashed var(--spg-border);
+  }
+  .pd-specs .row:last-child{border-bottom:none}
+  .pd-specs .row span:first-child{color:var(--spg-muted)}
+  .pd-specs .row span:last-child{font-weight:600}
+
+  .pd-desc{font-size:12px;line-height:1.6;color:#374151}
+  .pd-desc ul{padding-left:18px;margin-top:6px}
+  .pd-desc li{margin-bottom:4px}
+
+  .pd-tabs{
+    display:flex;gap:4px;border-bottom:1px solid var(--spg-border);
+    margin:14px 0 10px;
+  }
+  .pd-tab{
+    flex:1;padding:10px 6px;text-align:center;
+    font-size:12px;font-weight:600;color:var(--spg-muted);
+    border-bottom:2px solid transparent;
+  }
+  .pd-tab.active{color:var(--spg-orange);border-bottom-color:var(--spg-orange)}
+  .pd-tab-content{display:none;font-size:12px}
+  .pd-tab-content.active{display:block}
+
+  .review{
+    padding:10px 0;border-bottom:1px solid var(--spg-border);
+  }
+  .review:last-child{border-bottom:none}
+  .review .rv-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .review .rv-avatar{
+    width:28px;height:28px;border-radius:50%;
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:#78350f;
+  }
+  .review .rv-name{font-size:12px;font-weight:600}
+  .review .rv-stars{font-size:10px;color:var(--spg-yellow)}
+  .review .rv-date{font-size:10px;color:var(--spg-muted);margin-left:auto}
+  .review .rv-text{font-size:12px;color:#374151;line-height:1.5}
+
+  .pd-sticky{
+    position:sticky;bottom:0;background:#fff;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--spg-border);
+    display:flex;gap:8px;
+    box-shadow:0 -2px 10px rgba(0,0,0,.05);
+  }
+  .pd-sticky .btn-cart{
+    flex:1;background:var(--spg-dark);color:#fff;
+    padding:12px;border-radius:10px;font-weight:700;font-size:13px;
+  }
+  .pd-sticky .btn-buy{
+    flex:1;background:var(--spg-orange);color:#fff;
+    padding:12px;border-radius:10px;font-weight:700;font-size:13px;
+  }
+
+  .related{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+    padding:0 14px 14px;
+  }
+  .related .product .info{padding:6px 8px 8px}
+  .related .product .name{font-size:11px;min-height:28px}
+  .related .product .price b{font-size:12px}
+</style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 pb-20 md:pb-0">
+<body>
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-spgNavy text-white text-xs py-2 px-4 flex justify-between items-center">
-        <div class="flex items-center space-x-4">
-            <span><i class="fa-solid fa-phone-volume mr-1"></i> Hotline: +880 1345-718796</span>
-            <span class="hidden md:inline"><i class="fa-solid fa-envelope mr-1"></i> support@superpowergroup.com</span>
-        </div>
-        <div class="flex items-center space-x-4">
-            <select class="bg-transparent text-white text-xs outline-none cursor-pointer">
-                <option value="EN" class="bg-gray-800">English</option>
-                <option value="BN" class="bg-gray-800">বাংলা (Bangla)</option>
-            </select>
-            <select class="bg-transparent text-white text-xs outline-none cursor-pointer">
-                <option value="BDT" class="bg-gray-800">BDT (৳)</option>
-                <option value="USD" class="bg-gray-800">USD ($)</option>
-            </select>
-        </div>
+<!-- ===== TOP HEADER ===== -->
+<header class="top-header">
+  <div class="logo">
+    <span class="dot"></span>
+    <div>SPG MART<small>SUPER POWER GROUP</small></div>
+  </div>
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" placeholder="Search for products..." />
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main>
+  <section class="hero">
+    <span class="tag">⚡ MEGA SALE</span>
+    <h2>Ramadan & Mega Sale</h2>
+    <p>SPG ব্র্যান্ডেড পণ্যে ৪০% পর্যন্ত ছাড়</p>
+    <button>Shop Now</button>
+  </section>
+
+  <div class="section-title"><h3>Explore Categories</h3><a href="#">View All</a></div>
+  <div class="cat-grid">
+    <div class="cat-item"><div class="icon">⚡</div><span>Electrical</span></div>
+    <div class="cat-item"><div class="icon">💡</div><span>LED</span></div>
+    <div class="cat-item"><div class="icon">☀️</div><span>Solar</span></div>
+    <div class="cat-item"><div class="icon">🔌</div><span>Wires</span></div>
+    <div class="cat-item"><div class="icon">🔋</div><span>Battery</span></div>
+    <div class="cat-item"><div class="icon">🌀</div><span>Fan</span></div>
+    <div class="cat-item"><div class="icon">🛠️</div><span>Tools</span></div>
+    <div class="cat-item"><div class="icon">🏷️</div><span>SPG Brand</span></div>
+  </div>
+
+  <div class="section-title"><h3>Recommended</h3><a href="#">See More</a></div>
+  <div class="products" id="productsGrid">
+    <!-- Products injected by JS -->
+  </div>
+</main>
+
+<!-- ===== BOTTOM NAV ===== -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-panel="none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="nav-btn" data-panel="categoryPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <span>Category</span>
+  </button>
+  <button class="nav-btn" data-panel="wishlistPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span>Wishlist</span>
+  </button>
+  <button class="nav-btn" data-panel="accountPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Account</span>
+  </button>
+  <button class="nav-btn" data-panel="cartPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    <span>Cart</span>
+    <span class="count">2</span>
+  </button>
+</nav>
+
+<!-- ===== OVERLAY ===== -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ===== CATEGORY PANEL ===== -->
+<div class="panel" id="categoryPanel">
+  <div class="panel-header">
+    <h3>All Categories</h3>
+    <button class="close" data-close>✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="menu-list">
+      <div class="menu-item"><div class="mi-icon">⚡</div><div class="mi-text"><b>Electrical & Electronics</b><small>Switch, Socket, MCB, DB</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">💡</div><div class="mi-text"><b>Lighting & LED</b><small>Bulb, Tube, Panel, Flood</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">☀️</div><div class="mi-text"><b>Solar Equipment</b><small>Panel, Inverter, Controller</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">🔌</div><div class="mi-text"><b>Cables & Wires</b><small>Copper, Aluminum, Flexible</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">🔋</div><div class="mi-text"><b>Batteries & Inverters</b><small>IPS, UPS, Deep Cycle</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">🌀</div><div class="mi-text"><b>Fans & Ventilation</b><small>Ceiling, Exhaust, Wall</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">🛠️</div><div class="mi-text"><b>Tools & Hardware</b><small>Hand tools, Measuring</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">🏷️</div><div class="mi-text"><b>SPG Own Brand</b><small>Premium SPG products</small></div><span class="mi-arrow">›</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== WISHLIST PANEL ===== -->
+<div class="panel" id="wishlistPanel">
+  <div class="panel-header">
+    <h3>My Wishlist</h3>
+    <button class="close" data-close>✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="empty-state">
+      <div class="emoji">💝</div>
+      <p>Your wishlist is empty.<br>Save your favorite items here.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CART PANEL ===== -->
+<div class="panel" id="cartPanel">
+  <div class="panel-header">
+    <h3>My Cart (2)</h3>
+    <button class="close" data-close>✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="order-card">
+      <div class="top"><b>SPG LED Bulb 20W</b><b>৳350</b></div>
+      <div class="meta">Qty: 1 · Lighting & LED</div>
+    </div>
+    <div class="order-card">
+      <div class="top"><b>SPG Copper Wire 100Y</b><b>৳2,450</b></div>
+      <div class="meta">Qty: 1 · Electrical Tools</div>
+    </div>
+    <div style="padding:12px 0;border-top:1px solid var(--spg-border);margin-top:10px;display:flex;justify-content:space-between;font-weight:700">
+      <span>Total</span><span style="color:var(--spg-orange)">৳2,800</span>
+    </div>
+    <button class="btn-primary">Checkout</button>
+  </div>
+</div>
+
+<!-- ===== ACCOUNT PANEL ===== -->
+<div class="panel" id="accountPanel" style="max-height:92vh">
+  <div class="panel-header">
+    <h3>My Account</h3>
+    <button class="close" data-close>✕</button>
+  </div>
+  <div class="acct-tabs" id="acctTabs">
+    <button class="acct-tab active" data-tab="profile">👤 Profile</button>
+    <button class="acct-tab" data-tab="orders">📦 Orders</button>
+    <button class="acct-tab" data-tab="address">📍 Address</button>
+    <button class="acct-tab" data-tab="payment">💳 Payment</button>
+    <button class="acct-tab" data-tab="returns">↩ Returns</button>
+    <button class="acct-tab" data-tab="warranty">🛡 Warranty</button>
+    <button class="acct-tab" data-tab="refer">🎁 Refer</button>
+    <button class="acct-tab" data-tab="notif">🔔 Notify</button>
+    <button class="acct-tab" data-tab="lang">🌐 Language</button>
+    <button class="acct-tab" data-tab="currency">💱 Currency</button>
+    <button class="acct-tab" data-tab="location">📌 Location</button>
+    <button class="acct-tab" data-tab="offers">🏷 Offers</button>
+    <button class="acct-tab" data-tab="support">💬 Support</button>
+    <button class="acct-tab" data-tab="settings">⚙️ Settings</button>
+  </div>
+  <div class="panel-body" id="acctBody"></div>
+</div>
+
+<!-- ===== ORDER TRACKING PANEL ===== -->
+<div class="panel" id="trackingPanel">
+  <div class="panel-header">
+    <h3>Order Tracking</h3>
+    <button class="close" data-close>✕</button>
+  </div>
+  <div class="panel-body" id="trackingBody"></div>
+</div>
+
+<!-- ===== PRODUCT DETAIL PANEL ===== -->
+<div class="panel pd-panel" id="productPanel">
+  <div id="productBody"></div>
+</div>
+
+<script>
+/* ===== Product Data ===== */
+const products = [
+  {
+    id:1,
+    name:"SPG Monocrystalline Solar Panel 400W High Efficiency",
+    cat:"SPG Solar Tech",
+    rating:4.8, reviews:124,
+    price:14500, old:19300, off:25,
+    img:"https://placehold.co/400x400/f3f4f6/172337?text=Solar+Panel",
+    imgs:[
+      "https://placehold.co/400x400/f3f4f6/172337?text=Solar+Panel+1",
+      "https://placehold.co/400x400/f3f4f6/172337?text=Solar+Panel+2",
+      "https://placehold.co/400x400/f3f4f6/172337?text=Solar+Panel+3",
+      "https://placehold.co/400x400/f3f4f6/172337?text=Solar+Panel+4"
+    ],
+    variants:["100W","200W","300W","400W"],
+    activeVar:3,
+    desc:"High-efficiency monocrystalline solar panel with 25-year performance warranty. Ideal for home, office and off-grid solar systems.",
+    features:["21.5% cell efficiency","Anti-reflective tempered glass","IP67 junction box","Salt & ammonia resistant","25-year linear warranty"],
+    specs:[
+      ["Brand","SPG Solar Tech"],
+      ["Power","400W"],
+      ["Voltage","40.5V"],
+      ["Current","9.88A"],
+      ["Efficiency","21.5%"],
+      ["Weight","20.5 kg"],
+      ["Dimensions","1722×1134×30 mm"],
+      ["Warranty","25 years"]
+    ],
+    reviewsList:[
+      {name:"Rahim U.",stars:5,date:"02 Nov 2026",text:"Excellent panel. Output matches the rating even on cloudy days. Very happy with SPG quality."},
+      {name:"Karim H.",stars:5,date:"28 Oct 2026",text:"Installation was easy. Build quality is premium. Highly recommended."},
+      {name:"Nusrat A.",stars:4,date:"15 Oct 2026",text:"Good value for money. Delivery was on time."}
+    ]
+  },
+  {
+    id:2,
+    name:"SPG Premium 20W LED Bulb Daylight Energy Saving",
+    cat:"Lighting & LED",
+    rating:4.9, reviews:310,
+    price:350, old:420, off:15,
+    img:"https://placehold.co/400x400/f3f4f6/172337?text=LED+Bulb",
+    imgs:[
+      "https://placehold.co/400x400/f3f4f6/172337?text=LED+Bulb+1",
+      "https://placehold.co/400x400/f3f4f6/172337?text=LED+Bulb+2",
+      "https://placehold.co/400x400/f3f4f6/172337?text=LED+Bulb+3"
+    ],
+    variants:["9W","12W","15W","20W","30W"],
+    activeVar:3,
+    desc:"Energy-saving LED bulb with bright daylight output. Long life and low power consumption.",
+    features:["20000+ hours life","80% energy saving","Flicker-free","Instant on","2-year warranty"],
+    specs:[
+      ["Brand","SPG Lighting"],
+      ["Power","20W"],
+      ["Lumens","2000 lm"],
+      ["Color Temp","6500K Daylight"],
+      ["Base","E27"],
+      ["Voltage","170-260V"],
+      ["Life","20000 hours"],
+      ["Warranty","2 years"]
+    ],
+    reviewsList:[
+      {name:"Sadia R.",stars:5,date:"05 Nov 2026",text:"Very bright and energy efficient. Using for 6 months, no issues."},
+      {name:"Jamal K.",stars:5,date:"30 Oct 2026",text:"Best LED bulb in this price range. SPG quality is reliable."}
+    ]
+  },
+  {
+    id:3,
+    name:"SPG Pure Sine Wave IPS Inverter 1000VA",
+    cat:"Batteries & Inverters",
+    rating:4.7, reviews:85,
+    price:9800, old:12250, off:20,
+    img:"https://placehold.co/400x400/f3f4f6/172337?text=Inverter",
+    imgs:[
+      "https://placehold.co/400x400/f3f4f6/172337?text=Inverter+1",
+      "https://placehold.co/400x400/f3f4f6/172337?text=Inverter+2",
+      "https://placehold.co/400x400/f3f4f6/172337?text=Inverter+3"
+    ],
+    variants:["600VA","800VA","1000VA","1500VA"],
+    activeVar:2,
+    desc:"Pure sine wave IPS inverter for smooth power backup. Suitable for home and office appliances.",
+    features:["Pure sine wave output","Overload protection","Fast changeover","LCD display","1-year warranty"],
+    specs:[
+      ["Brand","SPG Power"],
+      ["Capacity","1000VA"],
+      ["Output","Pure Sine Wave"],
+      ["Battery","12V"],
+      ["Changeover","<10ms"],
+      ["Display","LCD"],
+      ["Warranty","1 year"]
+    ],
+    reviewsList:[
+      {name:"Hasan M.",stars:5,date:"01 Nov 2026",text:"Smooth performance. No noise, clean output."},
+      {name:"Tania S.",stars:4,date:"25 Oct 2026",text:"Good inverter for the price. Works well with fan and lights."}
+    ]
+  },
+  {
+    id:4,
+    name:"SPG Heavy Duty Copper Electrical Wire 3/0.029 (100 Yards)",
+    cat:"Electrical Tools",
+    rating:4.9, reviews:210,
+    price:2450, old:3500, off:30,
+    img:"https://placehold.co/400x400/f3f4f6/172337?text=Copper+Wire",
+    imgs:[
+      "https://placehold.co/400x400/f3f4f6/172337?text=Wire+1",
+      "https://placehold.co/400x400/f3f4f6/172337?text=Wire+2",
+      "https://placehold.co/400x400/f3f4f6/172337?text=Wire+3"
+    ],
+    variants:["50Y","100Y","200Y","500Y"],
+    activeVar:1,
+    desc:"High-quality copper electrical wire with PVC insulation. Safe and durable for home wiring.",
+    features:["99.9% pure copper","Flame retardant PVC","ISI certified","Heat resistant","5-year warranty"],
+    specs:[
+      ["Brand","SPG Cables"],
+      ["Size","3/0.029"],
+      ["Length","100 Yards"],
+      ["Material","Pure Copper"],
+      ["Insulation","PVC"],
+      ["Voltage","600V"],
+      ["Certification","BSTI"],
+      ["Warranty","5 years"]
+    ],
+    reviewsList:[
+      {name:"Anwar H.",stars:5,date:"04 Nov 2026",text:"Excellent quality wire. Pure copper, good insulation."},
+      {name:"Rashid K.",stars:5,date:"29 Oct 2026",text:"Used for home wiring. Very satisfied with SPG quality."}
+    ]
+  }
+];
+
+/* ===== Render Products Grid ===== */
+const grid = document.getElementById('productsGrid');
+products.forEach(p=>{
+  const div = document.createElement('div');
+  div.className = 'product';
+  div.innerHTML = `
+    <span class="badge">-${p.off}%</span>
+    <img src="${p.img}" alt="">
+    <div class="info">
+      <div class="name">${p.name}</div>
+      <div class="rating">★ <b>${p.rating}</b> (${p.reviews})</div>
+      <div class="price"><b>৳${p.price.toLocaleString()}</b><s>৳${p.old.toLocaleString()}</s></div>
+      <button class="add-btn" onclick="event.stopPropagation()">Add to Cart</button>
+    </div>
+  `;
+  div.addEventListener('click',()=>openProductDetail(p.id));
+  grid.appendChild(div);
+});
+
+/* ===== Panel open/close ===== */
+const overlay = document.getElementById('overlay');
+const panels = document.querySelectorAll('.panel');
+const navBtns = document.querySelectorAll('.nav-btn');
+
+function openPanel(id){
+  if(id==='none'){ closeAll(); setActiveNav(0); return; }
+  closeAll();
+  document.getElementById(id).classList.add('show');
+  overlay.classList.add('show');
+}
+function closeAll(){
+  panels.forEach(p=>p.classList.remove('show'));
+  overlay.classList.remove('show');
+}
+function setActiveNav(i){
+  navBtns.forEach((b,idx)=>b.classList.toggle('active', idx===i));
+}
+
+navBtns.forEach((btn,i)=>{
+  btn.addEventListener('click',()=>{
+    const panel = btn.dataset.panel;
+    setActiveNav(i);
+    openPanel(panel);
+  });
+});
+overlay.addEventListener('click',closeAll);
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeAll));
+
+/* ===== Account tabs ===== */
+const tabs = {
+  profile:`
+    <div style="text-align:center;padding:10px 0 16px">
+      <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--spg-orange),var(--spg-yellow));margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700">G</div>
+      <b style="font-size:15px">Guest Customer</b>
+      <p style="font-size:12px;color:var(--spg-muted);margin-top:3px">Not signed in</p>
+    </div>
+    <div class="form-group"><label>Name</label><input type="text" placeholder="Your name"></div>
+    <div class="form-group"><label>Email or Mobile</label><input type="text" placeholder="email / 01XXXXXXXXX"></div>
+    <button class="btn-primary">Log In / Register</button>
+    <div class="notice">⚠ Demo sign-in only. Secure authentication requires a protected backend.</div>
+  `,
+  orders:`
+    <div class="order-card" onclick="openTracking(1)">
+      <div class="top"><b>#SPG-20261105-042</b><span class="status" style="color:var(--spg-orange)">● Out for Delivery</span></div>
+      <div class="meta">SPG Copper Wire 100Y · ৳2,450 · 03 Nov 2026</div>
+      <span class="track-btn">📍 Track Order ›</span>
+    </div>
+    <div class="order-card" onclick="openTracking(2)">
+      <div class="top"><b>#SPG-20261108-001</b><span class="status">● Delivered</span></div>
+      <div class="meta">SPG LED Bulb 20W × 2 · ৳700 · 05 Nov 2026</div>
+      <span class="track-btn">📍 View Details ›</span>
+    </div>
+    <div class="order-card" onclick="openTracking(3)">
+      <div class="top"><b>#SPG-20261101-088</b><span class="status" style="color:#3b82f6">● Processing</span></div>
+      <div class="meta">SPG Solar Panel 400W · ৳14,500 · 01 Nov 2026</div>
+      <span class="track-btn">📍 Track Order ›</span>
+    </div>
+  `,
+  address:`
+    <div class="form-group"><label>Full Address</label><input type="text" placeholder="House, Road, Area"></div>
+    <div class="form-group"><label>Contact Phone</label><input type="tel" placeholder="01XXXXXXXXX"></div>
+    <div class="form-group"><label>Label</label>
+      <div class="chip-row">
+        <div class="chip active">🏠 Home</div>
+        <div class="chip">🏢 Office</div>
+        <div class="chip">📍 Other</div>
+      </div>
+    </div>
+    <button class="btn-primary">Save Address</button>
+  `,
+  payment:`
+    <p style="font-size:12px;color:var(--spg-muted);margin-bottom:10px">Preferred payment method (demo — no credentials stored).</p>
+    <div class="menu-list">
+      <div class="menu-item"><div class="mi-icon">💳</div><div class="mi-text"><b>Bank Card</b><small>Visa / Mastercard</small></div></div>
+      <div class="menu-item"><div class="mi-icon" style="background:#fce7f3">📱</div><div class="mi-text"><b>bKash</b><small>Mobile banking</small></div></div>
+      <div class="menu-item"><div class="mi-icon" style="background:#fce7f3">📱</div><div class="mi-text"><b>Nagad</b><small>Mobile banking</small></div></div>
+      <div class="menu-item"><div class="mi-icon" style="background:#fce7f3">📱</div><div class="mi-text"><b>Rocket</b><small>DBBL mobile</small></div></div>
+      <div class="menu-item"><div class="mi-icon">🅠</div><div class="mi-text"><b>Bangla QR</b></div></div>
+      <div class="menu-item"><div class="mi-icon">🔵</div><div class="mi-text"><b>Google Pay</b></div></div>
+    </div>
+    <div class="notice">⚠ Live payments need approved gateway. Never enter PIN/OTP here.</div>
+  `,
+  returns:`
+    <div class="form-group"><label>Order Number</label><input type="text" placeholder="#SPG-..."></div>
+    <div class="form-group"><label>Reason</label>
+      <select><option>Damaged item</option><option>Wrong item received</option><option>Not as described</option><option>Other</option></select>
+    </div>
+    <div class="form-group"><label>Details</label><textarea rows="3" placeholder="Describe the issue..."></textarea></div>
+    <button class="btn-primary">Submit Return Request</button>
+  `,
+  warranty:`
+    <div class="form-group"><label>Order / Invoice No.</label><input type="text"></div>
+    <div class="form-group"><label>Product Name</label><input type="text"></div>
+    <div class="form-group"><label>Warranty Card / Serial</label><input type="text"></div>
+    <button class="btn-primary">Save Warranty Record</button>
+    <div class="notice">Coverage depends on official warranty terms and proof of purchase.</div>
+  `,
+  refer:`
+    <div class="ref-box">
+      <div style="font-size:12px;color:#78350f">Your Reference Code</div>
+      <code>SPG-WELCOME</code>
+      <button class="btn-outline" style="max-width:200px;margin:0 auto">📋 Copy Code</button>
+    </div>
+    <p style="font-size:12px;color:var(--spg-muted);margin-top:12px;text-align:center">Share with friends & family to earn rewards.</p>
+  `,
+  notif:`
+    <div class="toggle-row"><span>📦 Order & delivery updates</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="toggle-row"><span>🎁 Offers & promotions</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="toggle-row"><span>🔐 Security alerts</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+    <button class="btn-primary" style="margin-top:14px">Save Settings</button>
+  `,
+  lang:`
+    <p style="font-size:12px;color:var(--spg-muted);margin-bottom:10px">Select language</p>
+    <div class="chip-row">
+      <div class="chip active">English</div>
+      <div class="chip">বাংলা</div>
+    </div>
+    <button class="btn-primary" style="margin-top:16px">Save</button>
+  `,
+  currency:`
+    <p style="font-size:12px;color:var(--spg-muted);margin-bottom:10px">Select currency</p>
+    <div class="chip-row">
+      <div class="chip active">৳ BDT</div>
+      <div class="chip">$ USD</div>
+    </div>
+    <button class="btn-primary" style="margin-top:16px">Save</button>
+  `,
+  location:`
+    <p style="font-size:12px;color:var(--spg-muted);margin-bottom:10px">Delivery country</p>
+    <div class="menu-list">
+      <div class="menu-item"><div class="mi-icon">🇧🇩</div><div class="mi-text"><b>Bangladesh</b></div><span style="color:var(--spg-success)">✓</span></div>
+      <div class="menu-item"><div class="mi-icon">🇸🇦</div><div class="mi-text"><b>Saudi Arabia</b></div></div>
+      <div class="menu-item"><div class="mi-icon">🇦🇪</div><div class="mi-text"><b>United Arab Emirates</b></div></div>
+      <div class="menu-item"><div class="mi-icon">🇺🇸</div><div class="mi-text"><b>United States</b></div></div>
+      <div class="menu-item"><div class="mi-icon">🇬🇧</div><div class="mi-text"><b>United Kingdom</b></div></div>
+    </div>
+    <div class="notice">Changing country saves preference. Shipping, tax & currency need separate configuration.</div>
+  `,
+  offers:`
+    <div class="menu-list">
+      <div class="order-card">
+        <div class="top"><b>🔥 Flash Sale</b><span class="status">-40%</span></div>
+        <div class="meta">Ends in 06h 42m · Solar & LED products</div>
+      </div>
+      <div class="order-card">
+        <div class="top"><b>🎉 Ramadan Mega</b><span class="status">-25%</span></div>
+        <div class="meta">SPG branded electronics</div>
+      </div>
+      <div class="order-card">
+        <div class="top"><b>🎁 New User</b><span class="status">৳100 OFF</span></div>
+        <div class="meta">Code: SPG-WELCOME</div>
+      </div>
+    </div>
+  `,
+  support:`
+    <div class="menu-list">
+      <div class="menu-item"><div class="mi-icon">❓</div><div class="mi-text"><b>Help Center & FAQ</b><small>Common questions</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">↩</div><div class="mi-text"><b>Return / Warranty / Refund</b><small>Policy & status</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">📦</div><div class="mi-text"><b>Order Tracking</b><small>Live delivery status</small></div><span class="mi-arrow">›</span></div>
+    </div>
+    <div class="social-row">
+      <a href="#" class="social-btn wa">💬 WhatsApp</a>
+      <a href="#" class="social-btn fb">📘 Facebook</a>
+    </div>
+    <p style="font-size:11px;color:var(--spg-muted);text-align:center;margin-top:12px">+880 1345-718796 · support@superpowergroup.com</p>
+  `,
+  settings:`
+    <div class="menu-list">
+      <div class="menu-item"><div class="mi-icon">🔐</div><div class="mi-text"><b>Account Security</b><small>Password, 2FA</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">🌐</div><div class="mi-text"><b>Language & Country</b><small>English · Bangladesh</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">💱</div><div class="mi-text"><b>Currency</b><small>BDT (৳)</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">🔔</div><div class="mi-text"><b>Notifications</b><small>Manage alerts</small></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">📜</div><div class="mi-text"><b>Privacy & Terms</b></div><span class="mi-arrow">›</span></div>
+      <div class="menu-item"><div class="mi-icon">ℹ️</div><div class="mi-text"><b>About SPG MART</b><small>v1.0 · 2026</small></div><span class="mi-arrow">›</span></div>
+    </div>
+    <button class="btn-outline" style="margin-top:16px;color:var(--spg-danger);border-color:var(--spg-danger)">Log Out</button>
+    <div class="social-row" style="margin-top:16px">
+      <a href="#" class="social-btn fb">Facebook</a>
+      <a href="#" class="social-btn wa">WhatsApp</a>
+      <a href="#" class="social-btn ig">Instagram</a>
+    </div>
+    <p style="font-size:10px;color:var(--spg-muted);text-align:center;margin-top:14px">© 2026 SUPER POWER GROUP (SPG)</p>
+  `
+};
+
+const acctTabs = document.querySelectorAll('.acct-tab');
+const acctBody = document.getElementById('acctBody');
+function renderTab(key){
+  acctBody.innerHTML = tabs[key] || '<p>Coming soon</p>';
+  acctBody.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+      const row = c.parentElement;
+      row.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+}
+acctTabs.forEach(t=>{
+  t.addEventListener('click',()=>{
+    acctTabs.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    renderTab(t.dataset.tab);
+  });
+});
+renderTab('profile');
+
+/* ===== ORDER TRACKING DATA ===== */
+const orders = {
+  1:{
+    id:"#SPG-20261105-042",
+    status:"Out for Delivery",
+    eta:"Today, 08 Nov 2026 · Expected by 6:00 PM",
+    currentStep:4,
+    steps:[
+      {title:"Order Placed",time:"03 Nov 2026 · 10:24 AM",icon:"📝",done:true,note:"Order confirmed and payment received"},
+      {title:"Confirmed",time:"03 Nov 2026 · 11:15 AM",icon:"✓",done:true,note:"Seller confirmed your order"},
+      {title:"Shipped",time:"05 Nov 2026 · 09:30 AM",icon:"📦",done:true,note:"Picked up by Pathao Courier · ID: PT-88421"},
+      {title:"Out for Delivery",time:"08 Nov 2026 · 08:15 AM",icon:"🚚",current:true,note:"Rider: Karim · Currently in Dhanmondi area"},
+      {title:"Delivered",time:"Expected today",icon:"🏠",pending:true}
+    ],
+    rider:{name:"Karim Hossain",phone:"+880 1712-345678",initial:"K"},
+    items:[
+      {name:"SPG Copper Wire 100Y",qty:1,price:2450,img:"https://placehold.co/100x100/f3f4f6/172337?text=Wire"}
+    ]
+  },
+  2:{
+    id:"#SPG-20261108-001",
+    status:"Delivered",
+    eta:"Delivered on 05 Nov 2026 · 03:45 PM",
+    currentStep:5,
+    steps:[
+      {title:"Order Placed",time:"01 Nov 2026 · 02:10 PM",icon:"📝",done:true},
+      {title:"Confirmed",time:"01 Nov 2026 · 02:45 PM",icon:"✓",done:true},
+      {title:"Shipped",time:"02 Nov 2026 · 10:00 AM",icon:"📦",done:true},
+      {title:"Out for Delivery",time:"05 Nov 2026 · 09:20 AM",icon:"🚚",done:true},
+      {title:"Delivered",time:"05 Nov 2026 · 03:45 PM",icon:"🏠",done:true,note:"Received by: Customer · Signed"}
+    ],
+    items:[
+      {name:"SPG LED Bulb 20W",qty:2,price:700,img:"https://placehold.co/100x100/f3f4f6/172337?text=LED"}
+    ]
+  },
+  3:{
+    id:"#SPG-20261101-088",
+    status:"Processing",
+    eta:"Expected dispatch: 10 Nov 2026",
+    currentStep:2,
+    steps:[
+      {title:"Order Placed",time:"01 Nov 2026 · 08:30 PM",icon:"📝",done:true},
+      {title:"Confirmed",time:"02 Nov 2026 · 09:15 AM",icon:"✓",done:true,note:"Payment verified"},
+      {title:"Shipped",time:"Pending",icon:"📦",current:true,note:"Seller is preparing your order"},
+      {title:"Out for Delivery",time:"—",icon:"🚚",pending:true},
+      {title:"Delivered",time:"—",icon:"🏠",pending:true}
+    ],
+    items:[
+      {name:"SPG Solar Panel 400W",qty:1,price:14500,img:"https://placehold.co/100x100/f3f4f6/172337?text=Solar"}
+    ]
+  }
+};
+
+function openTracking(orderId){
+  const o = orders[orderId];
+  if(!o) return;
+  const body = document.getElementById('trackingBody');
+  body.innerHTML = `
+    <div class="tracking-header">
+      <div class="oid">ORDER ${o.id}</div>
+      <div class="ostatus">${o.status}</div>
+      <div class="oeta">📅 ${o.eta}</div>
     </div>
 
-    <!-- Main Header (Noon Inspired Yellow Header) -->
-    <header class="bg-spgYellow sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-            <!-- Brand Logo -->
-            <div class="flex items-center space-x-3">
-                <a href="#" class="flex items-center space-x-2">
-                    <div class="bg-spgNavy text-spgYellow font-extrabold text-xl px-3 py-1.5 rounded-lg tracking-wider shadow">SPG</div>
-                    <div class="hidden sm:block leading-tight">
-                        <span class="font-extrabold text-spgNavy text-lg block">MART</span>
-                        <span class="text-[10px] text-gray-800 font-semibold uppercase tracking-wider">Super Power Group</span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Location Selector -->
-            <div class="hidden lg:flex items-center bg-white/60 hover:bg-white px-3 py-1.5 rounded-lg cursor-pointer text-xs text-spgNavy font-medium transition">
-                <i class="fa-solid fa-location-dot text-red-500 mr-2 text-sm"></i>
-                <div>
-                    <p class="text-[10px] text-gray-500">Deliver to</p>
-                    <p class="font-bold">Dhaka, Bangladesh</p>
-                </div>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-2xl relative">
-                <div class="flex items-center bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 focus-within:ring-2 focus-within:ring-spgNavy">
-                    <input type="text" placeholder="What are you looking for today?" class="w-full px-4 py-2.5 text-sm outline-none text-gray-800">
-                    <button class="bg-gray-100 hover:bg-gray-200 px-3 text-gray-600 transition" title="Camera Search">
-                        <i class="fa-solid fa-camera"></i>
-                    </button>
-                    <button class="bg-spgNavy text-spgYellow px-5 py-2.5 hover:opacity-90 transition font-semibold text-sm">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- User Actions (Customer Only) -->
-            <div class="flex items-center space-x-5 text-spgNavy">
-                <a href="#" class="hidden md:flex flex-col items-center hover:opacity-75 transition">
-                    <i class="fa-regular fa-user text-lg"></i>
-                    <span class="text-xs font-bold">Account</span>
-                </a>
-                <a href="#" class="hidden md:flex flex-col items-center hover:opacity-75 transition relative">
-                    <i class="fa-regular fa-heart text-lg"></i>
-                    <span class="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
-                    <span class="text-xs font-bold">Wishlist</span>
-                </a>
-                <a href="#" class="flex flex-col items-center hover:opacity-75 transition relative bg-white px-3 py-1 rounded-lg shadow-sm">
-                    <div class="relative">
-                        <i class="fa-solid fa-cart-shopping text-lg text-spgNavy"></i>
-                        <span class="absolute -top-2 -right-3 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">2</span>
-                    </div>
-                    <span class="text-xs font-bold mt-0.5">Cart</span>
-                </a>
-            </div>
+    <div class="timeline">
+      ${o.steps.map(s=>`
+        <div class="tl-step ${s.done?'done':''} ${s.current?'current':''} ${s.pending?'pending':''}">
+          <div class="tl-dot">${s.done?'✓':s.current?s.icon:'○'}</div>
+          <div class="tl-title">${s.title}</div>
+          <div class="tl-time">${s.time}</div>
+          ${s.note?`<div class="tl-note">${s.note}</div>`:''}
         </div>
-    </header>
-
-    <!-- Navigation Categories Bar -->
-    <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 hidden md:block">
-        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between overflow-x-auto py-2.5 text-sm font-medium">
-            <div class="flex items-center space-x-6 whitespace-nowrap">
-                <a href="#" class="flex items-center text-spgNavy dark:text-spgYellow font-bold hover:opacity-85"><i class="fa-solid fa-bars mr-2"></i> All Categories</a>
-                <a href="#" class="hover:text-blue-600">Electrical & Electronics</a>
-                <a href="#" class="hover:text-blue-600">Lighting & LED</a>
-                <a href="#" class="hover:text-blue-600">Solar Equipment</a>
-                <a href="#" class="hover:text-blue-600">Cables & Tools</a>
-                <a href="#" class="hover:text-blue-600">Home Appliances</a>
-                <a href="#" class="hover:text-blue-600 text-red-600 font-bold">⚡ Flash Sale</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
-        
-        <!-- Hero Promotional Banner -->
-        <div class="bg-gradient-to-r from-spgNavy to-blue-900 rounded-2xl p-6 md:p-10 text-white flex flex-col md:flex-row items-center justify-between shadow-xl">
-            <div class="space-y-4 max-w-lg text-center md:text-left mb-6 md:mb-0">
-                <span class="bg-spgYellow text-spgNavy font-extrabold text-xs px-3 py-1 rounded-full uppercase">Ramadan & Mega Sale</span>
-                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Super Power Electronics & Solar Deals</h1>
-                <p class="text-gray-300 text-sm md:text-base">Get up to 40% discount on original SPG branded products, solar panels, and LED lighting solutions.</p>
-                <div class="pt-2">
-                    <button class="bg-spgYellow text-spgNavy font-bold px-6 py-3 rounded-xl shadow hover:bg-yellow-400 transition transform hover:-translate-y-0.5">Shop Now</button>
-                </div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 text-center w-full md:w-auto">
-                <p class="text-xs uppercase tracking-wider text-spgYellow font-bold">Flash Sale Ends In</p>
-                <div class="flex space-x-3 justify-center my-3">
-                    <div class="bg-black/40 p-2 rounded-lg"><span class="text-xl font-bold">06</span><p class="text-[10px]">Hours</p></div>
-                    <div class="bg-black/40 p-2 rounded-lg"><span class="text-xl font-bold">42</span><p class="text-[10px]">Mins</p></div>
-                    <div class="bg-black/40 p-2 rounded-lg"><span class="text-xl font-bold">15</span><p class="text-[10px]">Secs</p></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Category Grid Icons -->
-        <section>
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-spgNavy dark:text-white">Explore Categories</h2>
-                <a href="#" class="text-sm font-semibold text-blue-600 hover:underline">View All</a>
-            </div>
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md transition cursor-pointer">
-                    <div class="w-12 h-12 mx-auto bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-xl mb-2">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-                    <p class="text-xs font-semibold">Electrical & Electronics</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md transition cursor-pointer">
-                    <div class="w-12 h-12 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-2">
-                        <i class="fa-solid fa-lightbulb"></i>
-                    </div>
-                    <p class="text-xs font-semibold">Lighting & LED</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md transition cursor-pointer">
-                    <div class="w-12 h-12 mx-auto bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl mb-2">
-                        <i class="fa-solid fa-solar-panel"></i>
-                    </div>
-                    <p class="text-xs font-semibold">Solar Panels</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md transition cursor-pointer">
-                    <div class="w-12 h-12 mx-auto bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xl mb-2">
-                        <i class="fa-solid fa-plug"></i>
-                    </div>
-                    <p class="text-xs font-semibold">Wires & Tools</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md transition cursor-pointer">
-                    <div class="w-12 h-12 mx-auto bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xl mb-2">
-                        <i class="fa-solid fa-car-battery"></i>
-                    </div>
-                    <p class="text-xs font-semibold">Batteries & Inverters</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md transition cursor-pointer">
-                    <div class="w-12 h-12 mx-auto bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl mb-2">
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-xs font-semibold">SPG Own Brand</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Products Section -->
-        <section>
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-spgNavy dark:text-white">Recommended Products</h2>
-                <a href="#" class="text-sm font-semibold text-blue-600 hover:underline">See More</a>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                
-                <!-- Product Card 1 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-3 flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="relative mb-3">
-                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">-25%</span>
-                            <img src="https://placehold.co/300x300/f3f4f6/172337?text=SPG+Solar+Panel" alt="Product" class="w-full h-40 object-cover rounded-lg">
-                        </div>
-                        <p class="text-xs text-gray-500 mb-1">SPG Solar Tech</p>
-                        <h3 class="text-sm font-medium line-clamp-2 mb-2">SPG Monocrystalline Solar Panel 400W High Efficiency</h3>
-                        <div class="flex items-center space-x-1 mb-2">
-                            <span class="text-yellow-500 text-xs"><i class="fa-solid fa-star"></i> 4.8</span>
-                            <span class="text-gray-400 text-[10px]">(124)</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-baseline space-x-2 mb-3">
-                            <span class="text-base font-bold text-gray-900 dark:text-white">৳ 14,500</span>
-                            <span class="text-xs text-gray-400 line-through">৳ 19,300</span>
-                        </div>
-                        <button class="w-full bg-spgYellow text-spgNavy py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-3 flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="relative mb-3">
-                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">-15%</span>
-                            <img src="https://placehold.co/300x300/f3f4f6/172337?text=SPG+LED+Bulb" alt="Product" class="w-full h-40 object-cover rounded-lg">
-                        </div>
-                        <p class="text-xs text-gray-500 mb-1">Lighting & LED</p>
-                        <h3 class="text-sm font-medium line-clamp-2 mb-2">SPG Premium 20W LED Bulb Daylight Energy Saving</h3>
-                        <div class="flex items-center space-x-1 mb-2">
-                            <span class="text-yellow-500 text-xs"><i class="fa-solid fa-star"></i> 4.9</span>
-                            <span class="text-gray-400 text-[10px]">(310)</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-baseline space-x-2 mb-3">
-                            <span class="text-base font-bold text-gray-900 dark:text-white">৳ 350</span>
-                            <span class="text-xs text-gray-400 line-through">৳ 420</span>
-                        </div>
-                        <button class="w-full bg-spgYellow text-spgNavy py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-3 flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="relative mb-3">
-                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">-20%</span>
-                            <img src="https://placehold.co/300x300/f3f4f6/172337?text=SPG+Inverter" alt="Product" class="w-full h-40 object-cover rounded-lg">
-                        </div>
-                        <p class="text-xs text-gray-500 mb-1">Batteries & Inverters</p>
-                        <h3 class="text-sm font-medium line-clamp-2 mb-2">SPG Pure Sine Wave IPS Inverter 1000VA</h3>
-                        <div class="flex items-center space-x-1 mb-2">
-                            <span class="text-yellow-500 text-xs"><i class="fa-solid fa-star"></i> 4.7</span>
-                            <span class="text-gray-400 text-[10px]">(85)</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-baseline space-x-2 mb-3">
-                            <span class="text-base font-bold text-gray-900 dark:text-white">৳ 9,800</span>
-                            <span class="text-xs text-gray-400 line-through">৳ 12,250</span>
-                        </div>
-                        <button class="w-full bg-spgYellow text-spgNavy py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-3 flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="relative mb-3">
-                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">-30%</span>
-                            <img src="https://placehold.co/300x300/f3f4f6/172337?text=SPG+Cables" alt="Product" class="w-full h-40 object-cover rounded-lg">
-                        </div>
-                        <p class="text-xs text-gray-500 mb-1">Electrical Tools</p>
-                        <h3 class="text-sm font-medium line-clamp-2 mb-2">SPG Heavy Duty Copper Electrical Wire 3/0.029 (100 Yards)</h3>
-                        <div class="flex items-center space-x-1 mb-2">
-                            <span class="text-yellow-500 text-xs"><i class="fa-solid fa-star"></i> 4.9</span>
-                            <span class="text-gray-400 text-[10px]">(210)</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-baseline space-x-2 mb-3">
-                            <span class="text-base font-bold text-gray-900 dark:text-white">৳ 2,450</span>
-                            <span class="text-xs text-gray-400 line-through">৳ 3,500</span>
-                        </div>
-                        <button class="w-full bg-spgYellow text-spgNavy py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-3 flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="relative mb-3">
-                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">-10%</span>
-                            <img src="https://placehold.co/300x300/f3f4f6/172337?text=SPG+Fan" alt="Product" class="w-full h-40 object-cover rounded-lg">
-                        </div>
-                        <p class="text-xs text-gray-500 mb-1">Fans & Ventilation</p>
-                        <h3 class="text-sm font-medium line-clamp-2 mb-2">SPG High Speed Ceiling Fan 56" Copper Winding</h3>
-                        <div class="flex items-center space-x-1 mb-2">
-                            <span class="text-yellow-500 text-xs"><i class="fa-solid fa-star"></i> 4.6</span>
-                            <span class="text-gray-400 text-[10px]">(94)</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-baseline space-x-2 mb-3">
-                            <span class="text-base font-bold text-gray-900 dark:text-white">৳ 3,200</span>
-                            <span class="text-xs text-gray-400 line-through">৳ 3,550</span>
-                        </div>
-                        <button class="w-full bg-spgYellow text-spgNavy py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">Add to Cart</button>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-spgNavy text-white mt-12 py-10 px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
-            <div>
-                <div class="flex items-center space-x-2 mb-4">
-                    <div class="bg-spgYellow text-spgNavy font-extrabold text-lg px-2.5 py-1 rounded">SPG</div>
-                    <span class="font-bold text-lg">MART</span>
-                </div>
-                <p class="text-gray-400 text-xs leading-relaxed">International Premium E-Commerce Platform powered by Super Power Group (SPG). Serving Bangladesh with genuine electrical, electronics, and solar solutions.</p>
-            </div>
-            <div>
-                <h4 class="font-bold text-spgYellow mb-3 uppercase tracking-wider text-xs">Customer Support</h4>
-                <ul class="space-y-2 text-xs text-gray-300">
-                    <li><a href="#" class="hover:underline">Help Center & FAQ</a></li>
-                    <li><a href="#" class="hover:underline">Return, Warranty & Refund</a></li>
-                    <li><a href="#" class="hover:underline">Order Tracking</a></li>
-                    <li><a href="#" class="hover:underline">WhatsApp Support</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-spgYellow mb-3 uppercase tracking-wider text-xs">Policy & Security</h4>
-                <ul class="space-y-2 text-xs text-gray-300">
-                    <li><a href="#" class="hover:underline">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:underline">Terms of Service</a></li>
-                    <li><a href="#" class="hover:underline">Secure Payments (bKash/Nagad)</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-spgYellow mb-3 uppercase tracking-wider text-xs">Contact Information</h4>
-                <p class="text-xs text-gray-300 mb-2"><i class="fa-solid fa-phone mr-2 text-spgYellow"></i> +880 1345-718796</p>
-                <p class="text-xs text-gray-300 mb-2"><i class="fa-solid fa-envelope mr-2 text-spgYellow"></i> support@superpowergroup.com</p>
-                <div class="flex space-x-3 mt-4 text-lg">
-                    <a href="#" class="hover:text-spgYellow"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="#" class="hover:text-spgYellow"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="#" class="hover:text-spgYellow"><i class="fa-brands fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto border-t border-gray-800 mt-8 pt-6 text-center text-xs text-gray-500">
-            &copy; 2026 SUPER POWER GROUP (SPG). All rights reserved. Customer-only public platform.
-        </div>
-    </footer>
-
-    <!-- Fixed Mobile Bottom Navigation Bar -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around items-center py-2 md:hidden z-50 text-gray-600 dark:text-gray-300">
-        <a href="#" class="flex flex-col items-center text-spgNavy dark:text-spgYellow">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-bold mt-0.5">Home</span>
-        </a>
-        <a href="#" class="flex flex-col items-center hover:text-spgNavy transition">
-            <i class="fa-solid fa-grid-2 text-lg"></i>
-            <span class="text-[10px] font-medium mt-0.5">Categories</span>
-        </a>
-        <a href="#" class="flex flex-col items-center hover:text-spgNavy transition">
-            <i class="fa-solid fa-bolt text-lg"></i>
-            <span class="text-[10px] font-medium mt-0.5">Sales</span>
-        </a>
-        <a href="#" class="flex flex-col items-center hover:text-spgNavy transition relative">
-            <i class="fa-solid fa-cart-shopping text-lg"></i>
-            <span class="absolute -top-1 right-2 bg-red-600 text-white text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">2</span>
-            <span class="text-[10px] font-medium mt-0.5">Cart</span>
-        </a>
-        <a href="#" class="flex flex-col items-center hover:text-spgNavy transition">
-            <i class="fa-solid fa-user text-lg"></i>
-            <span class="text-[10px] font-medium mt-0.5">Account</span>
-        </a>
+      `).join('')}
     </div>
 
+    ${o.rider?`
+      <div class="delivery-info">
+        <div class="avatar">${o.rider.initial}</div>
+        <div>
+          <b>${o.rider.name}</b>
+          <small>Delivery Rider</small>
+        </div>
+        <a href="tel:${o.rider.phone}" class="call">📞 Call</a>
+      </div>
+    `:''}
+
+    <div class="order-items">
+      <h4>Order Items</h4>
+      ${o.items.map(it=>`
+        <div class="oi-row">
+          <img src="${it.img}" alt="">
+          <div class="oi-info">
+            <b>${it.name}</b>
+            <small>Qty: ${it.qty}</small>
+          </div>
+          <div class="oi-price">৳${it.price.toLocaleString()}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <button class="btn-outline" style="margin-top:14px" onclick="closeAll()">Close</button>
+  `;
+  openPanel('trackingPanel');
+}
+
+/* ===== PRODUCT DETAIL ===== */
+function openProductDetail(pid){
+  const p = products.find(x=>x.id===pid);
+  if(!p) return;
+  const body = document.getElementById('productBody');
+  body.innerHTML = `
+    <div class="pd-gallery">
+      <span class="pd-badge">-${p.off}%</span>
+      <button class="pd-fav" onclick="this.innerHTML=this.innerHTML==='♡'?'♥':'♡'">♡</button>
+      <button class="pd-back" onclick="closeAll()">✕</button>
+      <img id="pdMainImg" src="${p.imgs[0]}" alt="">
+    </div>
+    <div class="pd-thumbs">
+      ${p.imgs.map((im,i)=>`<img src="${im}" class="${i===0?'active':''}" onclick="changePdImg(this,'${im}')">`).join('')}
+    </div>
+
+    <div class="pd-info">
+      <div class="pd-cat">${p.cat}</div>
+      <div class="pd-title">${p.name}</div>
+      <div class="pd-rating">
+        <span class="stars">★★★★★</span>
+        <b>${p.rating}</b>
+        <span>(${p.reviews} reviews)</span>
+      </div>
+      <div class="pd-price-row">
+        <div class="pd-price">৳${p.price.toLocaleString()}</div>
+        <div class="pd-old">৳${p.old.toLocaleString()}</div>
+        <div class="pd-off">-${p.off}%</div>
+      </div>
+
+      <div class="pd-section">
+        <h4>🎯 Select Variant</h4>
+        <div class="pd-variants">
+          ${p.variants.map((v,i)=>`<div class="pd-var ${i===p.activeVar?'active':''}" onclick="selectVar(this)">${v}</div>`).join('')}
+        </div>
+      </div>
+
+      <div class="pd-section">
+        <h4>🔢 Quantity</h4>
+        <div class="pd-qty">
+          <button onclick="changeQty(-1)">−</button>
+          <span id="pdQty">1</span>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+
+      <div class="pd-tabs">
+        <div class="pd-tab active" onclick="switchPdTab(this,'desc')">Description</div>
+        <div class="pd-tab" onclick="switchPdTab(this,'specs')">Specifications</div>
+        <div class="pd-tab" onclick="switchPdTab(this,'reviews')">Reviews</div>
+      </div>
+
+      <div class="pd-tab-content active" id="tab-desc">
+        <div class="pd-desc">
+          <p>${p.desc}</p>
+          <h4 style="margin-top:10px;font-size:12px">✨ Key Features</h4>
+          <ul>${p.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+        </div>
+      </div>
+
+      <div class="pd-tab-content" id="tab-specs">
+        <div class="pd-specs">
+          ${p.specs.map(s=>`<div class="row"><span>${s[0]}</span><span>${s[1]}</span></div>`).join('')}
+        </div>
+      </div>
+
+      <div class="pd-tab-content" id="tab-reviews">
+        ${p.reviewsList.map(r=>`
+          <div class="review">
+            <div class="rv-head">
+              <div class="rv-avatar">${r.name[0]}</div>
+              <div class="rv-name">${r.name}</div>
+              <div class="rv-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+              <div class="rv-date">${r.date}</div>
+            </div>
+            <div class="rv-text">${r.text}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <h4 style="font-size:13px;margin:16px 0 10px">Related Products</h4>
+    </div>
+    <div class="related">
+      ${products.filter(x=>x.id!==pid).slice(0,3).map(r=>`
+        <div class="product" onclick="openProductDetail(${r.id})">
+          <img src="${r.img}" alt="">
+          <div class="info">
+            <div class="name">${r.name}</div>
+            <div class="price"><b>৳${r.price.toLocaleString()}</b></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="pd-sticky">
+      <button class="btn-cart" onclick="alert('Added to cart!')">🛒 Add to Cart</button>
+      <button class="btn-buy" onclick="alert('Buy now!')">⚡ Buy Now</button>
+    </div>
+  `;
+  openPanel('productPanel');
+}
+
+function changePdImg(el,src){
+  document.getElementById('pdMainImg').src = src;
+  el.parentElement.querySelectorAll('img').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectVar(el){
+  el.parentElement.querySelectorAll('.pd-var').forEach(v=>v.classList.remove('active'));
+  el.classList.add('active');
+}
+function changeQty(d){
+  const el = document.getElementById('pdQty');
+  let n = parseInt(el.textContent) + d;
+  if(n<1) n=1;
+  el.textContent = n;
+}
+function switchPdTab(el,key){
+  el.parentElement.querySelectorAll('.pd-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.pd-tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+key).classList.add('active');
+}
+</script>
 </body>
 </html>
-```
